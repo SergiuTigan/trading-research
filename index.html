@@ -991,6 +991,7 @@ a:hover { color: var(--accent); text-decoration: underline; }
     </div>
     <div class="tabs">
       <button class="tab active" data-tab="tldr">⚡ TL;DR</button>
+      <button class="tab" data-tab="ftmo">🏦 FTMO / Prop Trading</button>
       <button class="tab" data-tab="full">📄 Full Research</button>
     </div>
   </div>
@@ -1158,6 +1159,46 @@ a:hover { color: var(--accent); text-decoration: underline; }
       </div>
     </div>
 
+    <!-- FTMO RECOMMENDATION -->
+    <div class="tldr-card full-width">
+      <div class="tldr-card-header">
+        <div class="tldr-card-icon" style="background: var(--green-bg); border: 1px solid var(--green-border);">🏦</div>
+        <div>
+          <div class="tldr-card-title">Recommended: FTMO / Prop Firm Trading</div>
+          <div class="tldr-card-subtitle">Best ROI path with minimal capital — see the dedicated FTMO tab for full details</div>
+        </div>
+      </div>
+      <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 12px;">
+        Instead of risking $5K–$100K of your own money, <strong style="color: var(--text-primary);">trade with prop firm capital for just ~€345–600 per attempt</strong>. 
+        Pass FTMO's challenge with a bot (eliminates emotional trading, the #1 failure reason), get a <strong style="color: var(--text-primary);">$100K funded account</strong>, and keep <strong style="color: var(--accent-light);">80–90% of profits</strong>.
+      </p>
+      <div class="capital-grid">
+        <div class="capital-item">
+          <div class="cap-label">Investment</div>
+          <div class="cap-value" style="color: var(--green);">~€600</div>
+          <div class="cap-note">Challenge fee (refunded on pass)</div>
+        </div>
+        <div class="capital-item">
+          <div class="cap-label">Funded Capital</div>
+          <div class="cap-value">$100K</div>
+          <div class="cap-note">Up to $2M with scaling</div>
+        </div>
+        <div class="capital-item">
+          <div class="cap-label">Monthly Income</div>
+          <div class="cap-value" style="color: var(--green);">$1.6–9K</div>
+          <div class="cap-note">2–10% returns × 80-90% split</div>
+        </div>
+        <div class="capital-item">
+          <div class="cap-label">Bot Pass Rate</div>
+          <div class="cap-value">20–40%</div>
+          <div class="cap-note">vs 8% for manual traders</div>
+        </div>
+      </div>
+      <div class="callout success" style="margin-top: 16px; margin-bottom: 0;">
+        💡 <strong>Bottom line:</strong> FTMO is astronomically better ROI than trading your own capital. ~€600 risk for $4,000+/month potential. Check the <strong>FTMO / Prop Trading</strong> tab for the complete deep dive — rules, strategies, math, and step-by-step roadmap.
+      </div>
+    </div>
+
     <!-- BRUTAL TRUTH -->
     <div class="tldr-card">
       <div class="tldr-card-header">
@@ -1179,6 +1220,1159 @@ a:hover { color: var(--accent); text-decoration: underline; }
 
   </div>
 </div>
+
+<!-- ==================== FTMO / PROP TRADING TAB ==================== -->
+<div class="tab-content" id="tab-ftmo">
+
+  <!-- FTMO TL;DR HERO -->
+  <div class="tldr-hero">
+    <h1>FTMO / Prop Trading<br>Bot Strategy</h1>
+    <p>Trade $100K+ of someone else's capital for just ~€600 entry. Build a bot, pass the challenge, keep 80–90% of profits. Here's every detail you need.</p>
+  </div>
+
+  <!-- KEY NUMBERS TLDR -->
+  <div class="tldr-grid">
+
+    <div class="tldr-card full-width">
+      <div class="tldr-card-header">
+        <div class="tldr-card-icon" style="background: var(--green-bg); border: 1px solid var(--green-border);">⚡</div>
+        <div>
+          <div class="tldr-card-title">Key Numbers at a Glance</div>
+          <div class="tldr-card-subtitle">The TL;DR of the TL;DR</div>
+        </div>
+      </div>
+      <div class="capital-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));">
+        <div class="capital-item">
+          <div class="cap-label">Challenge Fee</div>
+          <div class="cap-value" style="font-size: 20px;">€540</div>
+          <div class="cap-note">$100K account (refunded on pass)</div>
+        </div>
+        <div class="capital-item">
+          <div class="cap-label">Potential Monthly</div>
+          <div class="cap-value" style="font-size: 20px; color: var(--green);">$4,000+</div>
+          <div class="cap-note">5% return × 80% split</div>
+        </div>
+        <div class="capital-item">
+          <div class="cap-label">General Pass Rate</div>
+          <div class="cap-value" style="font-size: 20px; color: var(--red);">~8%</div>
+          <div class="cap-note">Manual traders</div>
+        </div>
+        <div class="capital-item">
+          <div class="cap-label">Bot Pass Rate</div>
+          <div class="cap-value" style="font-size: 20px; color: var(--green);">20–40%</div>
+          <div class="cap-note">Well-tested strategy</div>
+        </div>
+        <div class="capital-item">
+          <div class="cap-label">Time to Funded</div>
+          <div class="cap-value" style="font-size: 20px;">3–5 mo</div>
+          <div class="cap-note">Learning + challenge + verification</div>
+        </div>
+        <div class="capital-item">
+          <div class="cap-label">Best Strategy</div>
+          <div class="cap-value" style="font-size: 16px;">London Breakout</div>
+          <div class="cap-note">Session open + 0.5-1% risk</div>
+        </div>
+        <div class="capital-item">
+          <div class="cap-label">Best Platform</div>
+          <div class="cap-value" style="font-size: 16px;">MT5 (MQL5)</div>
+          <div class="cap-note">Largest community, best backtester</div>
+        </div>
+        <div class="capital-item">
+          <div class="cap-label">Tax in Romania</div>
+          <div class="cap-value" style="font-size: 20px; color: var(--yellow);">35–45%</div>
+          <div class="cap-note">PFA or SRL structure</div>
+        </div>
+      </div>
+      <div class="callout success" style="margin-top: 16px; margin-bottom: 0;">
+        💡 <strong>The pitch:</strong> Invest ~€1,000–2,000 in challenge fees → get a $100K funded account → earn $1,600–9,000/month → scale to $400K–$2M. Worst case: you lose €1–2K and gain serious trading knowledge.
+      </div>
+    </div>
+
+    <!-- ROI COMPARISON MINI -->
+    <div class="tldr-card">
+      <div class="tldr-card-header">
+        <div class="tldr-card-icon" style="background: var(--accent-glow); border: 1px solid rgba(124,92,252,0.25);">📊</div>
+        <div>
+          <div class="tldr-card-title">FTMO vs Own Capital</div>
+          <div class="tldr-card-subtitle">Why this is a no-brainer</div>
+        </div>
+      </div>
+      <div class="table-wrapper" style="margin: 0;">
+        <table>
+          <thead><tr><th>Metric</th><th>FTMO Bot</th><th>Own Capital</th></tr></thead>
+          <tbody>
+            <tr><td>Capital needed</td><td style="color: var(--green); font-weight: 700;">~€600</td><td style="color: var(--red);">$100,000</td></tr>
+            <tr><td>Risk to personal funds</td><td style="color: var(--green); font-weight: 700;">Challenge fee only</td><td style="color: var(--red);">Entire $100K</td></tr>
+            <tr><td>Monthly profit (5%)</td><td>$4,000–4,500</td><td>$5,000</td></tr>
+            <tr><td>ROI on invested capital</td><td style="color: var(--green); font-weight: 700;">267–750%</td><td>5%</td></tr>
+            <tr><td>Leverage</td><td>1:100</td><td>1:30 (EU retail)</td></tr>
+            <tr><td>Downside risk</td><td style="color: var(--green);">Lose €600</td><td style="color: var(--red);">Lose $100K</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- WHY BOT WINS -->
+    <div class="tldr-card">
+      <div class="tldr-card-header">
+        <div class="tldr-card-icon" style="background: rgba(34,211,238,0.1); border: 1px solid rgba(34,211,238,0.25);">🤖</div>
+        <div>
+          <div class="tldr-card-title">Why a Bot Crushes Manual Trading</div>
+          <div class="tldr-card-subtitle">92% fail manually — bots fix the top 3 reasons</div>
+        </div>
+      </div>
+      <div class="table-wrapper" style="margin: 0;">
+        <table>
+          <thead><tr><th>Failure Reason</th><th>% of Failures</th><th>Bot Fix</th></tr></thead>
+          <tbody>
+            <tr><td>Excessive risk (3–5%+ per trade)</td><td>45%</td><td style="color: var(--green);">✅ Hard-coded 1% max</td></tr>
+            <tr><td>Revenge trading after losses</td><td>30%</td><td style="color: var(--green);">✅ No emotions</td></tr>
+            <tr><td>Strategy hopping</td><td>15%</td><td style="color: var(--green);">✅ Follows one strategy</td></tr>
+            <tr><td>Over-trading</td><td>10%</td><td style="color: var(--green);">✅ Hard trade limits</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ===== FTMO RULES & CONSTRAINTS ===== -->
+  <section class="section" id="ftmo-s1">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>FTMO Rules &amp; Constraints</h2>
+    </div>
+
+    <div class="collapsible open">
+      <button class="collapsible-toggle">
+        Evaluation Structure (2-Step vs 1-Step)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>FTMO Challenge: 2-Step (Classic) — Recommended for Bots</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Phase</th><th>Profit Target</th><th>Max Daily Loss</th><th>Max Total Loss</th><th>Min Trading Days</th><th>Time Limit</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Phase 1</strong> (Challenge)</td><td style="color: var(--green); font-weight: 700;">10%</td><td style="color: var(--red);">5%</td><td style="color: var(--red);">10%</td><td>4 days</td><td>Unlimited</td></tr>
+                <tr><td><strong>Phase 2</strong> (Verification)</td><td style="color: var(--green); font-weight: 700;">5%</td><td style="color: var(--red);">5%</td><td style="color: var(--red);">10%</td><td>4 days</td><td>Unlimited</td></tr>
+                <tr><td><strong>Funded</strong></td><td>None</td><td style="color: var(--red);">5%</td><td style="color: var(--red);">10%</td><td>None</td><td>Ongoing</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>FTMO Challenge: 1-Step (NEW — Feb 2026)</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Phase</th><th>Profit Target</th><th>Max Daily Loss</th><th>Max Total Loss</th><th>Min Days</th><th>Time Limit</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Single Phase</strong></td><td style="color: var(--green); font-weight: 700;">10%</td><td style="color: var(--red);">3% (stricter!)</td><td style="color: var(--red);">10% (trailing)</td><td>2 days</td><td>Unlimited</td></tr>
+                <tr><td><strong>Funded</strong></td><td>None</td><td style="color: var(--red);">3%</td><td style="color: var(--red);">10% (trailing)</td><td>None</td><td>Ongoing</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout warning">
+            ⚠️ <strong>1-Step differences:</strong> Tighter daily loss (3% vs 5%), trailing max loss (follows highest balance upward), Best Day Rule (no single day &gt;50% of total profits), 90% profit split from day one. <strong>2-Step is easier for bots due to the 5% daily loss buffer.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Account Sizes &amp; Fees
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Account Size</th><th>Standard Fee</th><th>Aggressive Fee</th><th>Monthly Income (5% × 80%)</th></tr></thead>
+              <tbody>
+                <tr><td>$10,000</td><td>€155</td><td>€250</td><td style="color: var(--green);">$400</td></tr>
+                <tr><td>$25,000</td><td>€250</td><td>€345</td><td style="color: var(--green);">$1,000</td></tr>
+                <tr><td>$50,000</td><td>€345</td><td>€540</td><td style="color: var(--green);">$2,000</td></tr>
+                <tr><td style="font-weight: 700;">$100,000</td><td style="font-weight: 700;">€540</td><td>€1,080</td><td style="color: var(--green); font-weight: 700;">$4,000</td></tr>
+                <tr><td>$200,000</td><td>€1,080</td><td>N/A</td><td style="color: var(--green);">$8,000</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout info">💡 <strong>Fee is refunded</strong> with your first payout after passing. FTMO also offers 10–20% discounts regularly. <strong>Best value: $100K Standard at €540.</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Leverage &amp; Tradeable Instruments
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Asset Class</th><th>Normal Account</th><th>Swing Account</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Forex Pairs</strong></td><td style="color: var(--green); font-weight: 700;">1:100</td><td>1:30</td></tr>
+                <tr><td>Major Indices</td><td>1:50</td><td>1:15</td></tr>
+                <tr><td>Metals (Gold, Silver)</td><td>1:30</td><td>1:10</td></tr>
+                <tr><td>Commodities</td><td>~1:3.3</td><td>~1:3.3</td></tr>
+                <tr><td>Crypto</td><td>1:5</td><td>1:5</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size: 14px; color: var(--text-secondary);">
+            <strong>Tradeable:</strong> All major/minor/exotic forex pairs, indices (US30, US100, GER40, UK100), commodities (Gold, Silver, Oil), stock CFDs, and crypto (BTC, ETH).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        EA/Bot Rules — What's Allowed &amp; Forbidden
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4 style="color: var(--green);">✅ Allowed</h4>
+          <ul>
+            <li>Custom-built Expert Advisors (EAs)</li>
+            <li>Algorithmic / automated trading</li>
+            <li>Any legitimate strategy with proper risk management</li>
+            <li>Discretionary + EA hybrid approaches</li>
+          </ul>
+
+          <h4 style="color: var(--red);">❌ Forbidden Practices</h4>
+          <ul>
+            <li><strong>Martingale / Grid Trading</strong> — increasing position sizes after losses</li>
+            <li><strong>Latency / Tick Arbitrage</strong> — exploiting price feed delays</li>
+            <li><strong>HFT</strong> — more than ~2,000 server requests per day</li>
+            <li><strong>Gap Trading</strong> — trading around market close/open gaps</li>
+            <li><strong>News Scalping</strong> — trading during high-impact news (2-min rule on funded)</li>
+            <li><strong>Copy Trading across accounts</strong> — with other people/accounts</li>
+            <li><strong>Hedging across accounts</strong> — opposite positions on different accounts</li>
+            <li><strong>Account Rolling</strong> — resetting challenges with high-risk tactics</li>
+          </ul>
+
+          <div class="callout danger">
+            ⚠️ <strong>Critical (2025–2026):</strong> FTMO now flags traders risking &gt;1–1.5% per trade. Multiple Reddit reports of payout delays when risk exceeds these levels. <strong>Keep risk at 0.5–1% per trade.</strong> Also, if many traders use the same third-party EA, FTMO may deny your account — <strong>build your own.</strong>
+          </div>
+
+          <h4>Weekend &amp; Overnight Rules</h4>
+          <ul>
+            <li><strong>Normal Account:</strong> Must close all positions before weekend (Friday close)</li>
+            <li><strong>Swing Account:</strong> Can hold over weekends</li>
+            <li><strong>Funded:</strong> News trading restricted within 2 minutes of high-impact events</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STRATEGY RECOMMENDATIONS ===== -->
+  <section class="section" id="ftmo-s2">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>Strategy Recommendations</h2>
+    </div>
+
+    <div class="callout info" style="margin-bottom: 24px;">
+      💡 <strong>Core principle:</strong> The bot's #1 job is <strong>NOT breaching drawdown limits</strong> — not hitting the profit target. Survive first, profit second. Optimal risk: 0.5–1% per trade.
+    </div>
+
+    <div class="collapsible open">
+      <button class="collapsible-toggle">
+        🏆 Strategy #1: London/NY Session Breakout (BEST for FTMO)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="strategy-card green-card">
+            <h4>Session Breakout — The Go-To FTMO Bot Strategy</h4>
+            <div class="strategy-meta">
+              <span class="meta-tag returns">Proven for FTMO</span>
+              <span class="meta-tag complexity-low">Medium Complexity</span>
+              <span class="meta-tag capital">0.5–1% risk/trade</span>
+            </div>
+            <p><strong>How it works:</strong></p>
+            <ol>
+              <li>Calculate the Asian session range (00:00–07:00 GMT)</li>
+              <li>Place pending buy stop above the range high, sell stop below the range low</li>
+              <li>Use tight stop-loss (opposite end of range or <span class="abbr" data-tooltip="Average True Range — measure of price volatility">ATR</span>-based)</li>
+              <li>Target 1:2 or 1:3 risk:reward</li>
+              <li>Close all trades before session end</li>
+            </ol>
+            <p><strong>Why it's perfect for FTMO:</strong></p>
+            <ul>
+              <li>Predictable timing → easy to automate</li>
+              <li>High win rate during session opens</li>
+              <li>Natural stop loss from range → controlled risk</li>
+              <li>Trades during liquid hours → tight spreads</li>
+            </ul>
+            <div class="insight">
+              💡 <strong>Bot parameters:</strong> Pairs: EURUSD, GBPUSD, USDJPY · Timeframe: M15 or M30 · Sessions: London (07:00–09:00 GMT), NY (13:00–15:00 GMT) · Risk: 0.5–1% · R:R min 1:2 · Max 2 trades/day
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Strategy #2: Institutional Order Block / Supply &amp; Demand
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="strategy-card yellow-card">
+            <h4>Supply &amp; Demand Zones</h4>
+            <div class="strategy-meta">
+              <span class="meta-tag returns">3–5 setups/week</span>
+              <span class="meta-tag complexity-med">Higher Complexity</span>
+              <span class="meta-tag capital">1% risk/trade</span>
+            </div>
+            <p><strong>How it works:</strong> Identify H4/D1 supply/demand zones → wait for price to return → enter on confirmation (engulfing candle, pin bar) → SL beyond the zone → target next zone (1:2–1:3 R:R).</p>
+            <p><strong>Pairs:</strong> EUR/USD, GBP/USD, USD/JPY. <strong>Frequency:</strong> 3–5 setups per week.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Strategy #3: Trend Continuation with Pullback Entry
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="strategy-card yellow-card">
+            <h4>EMA Pullback Trend Following</h4>
+            <div class="strategy-meta">
+              <span class="meta-tag returns">Trend markets</span>
+              <span class="meta-tag complexity-low">Medium Complexity</span>
+              <span class="meta-tag capital">0.5–1% risk/trade</span>
+            </div>
+            <p><strong>How it works:</strong> Determine trend on H4 (above/below 50 EMA) → wait for pullback to 20 EMA on M15/M30 → enter when price bounces with a candle pattern → SL below pullback low → TP at next structure level or 2× SL distance.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Position Sizing &amp; Daily Risk Management
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Position Sizing Formula</h4>
+          <div class="formula">Lot Size = (Account Balance × Risk %) / (Stop Loss in Pips × Pip Value per Lot)</div>
+          <p><strong>Example ($100K, 1% risk, 50-pip SL on EURUSD):</strong> Lot Size = ($100,000 × 0.01) / (50 × $10) = <strong>2.0 standard lots</strong></p>
+
+          <h4>Quick Reference — $100K Account (EURUSD)</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Risk %</th><th>30-pip SL</th><th>50-pip SL</th><th>100-pip SL</th></tr></thead>
+              <tbody>
+                <tr><td>0.5%</td><td>1.67 lots</td><td>1.0 lots</td><td>0.5 lots</td></tr>
+                <tr><td style="font-weight: 700;">1.0%</td><td style="font-weight: 700;">3.33 lots</td><td style="font-weight: 700;">2.0 lots</td><td style="font-weight: 700;">1.0 lots</td></tr>
+                <tr><td>1.5%</td><td>5.0 lots</td><td>3.0 lots</td><td>1.5 lots</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>CRITICAL Bot Risk Rules</h4>
+          <ol>
+            <li><strong>Daily loss limit:</strong> Stop trading at -3% daily (2% buffer before 5% limit)</li>
+            <li><strong>Overall drawdown:</strong> Reduce risk when account drops below -5%</li>
+            <li><strong>Max trades/day:</strong> Cap at 3–5 trades</li>
+            <li><strong>Time filter:</strong> Only trade London/NY sessions</li>
+            <li><strong>Friday close:</strong> Close all positions before weekend</li>
+            <li><strong>News filter:</strong> Avoid 30min before/after high-impact news</li>
+            <li><strong>Spread filter:</strong> Don't trade if spread &gt; threshold</li>
+            <li><strong>Trailing stop / break-even:</strong> After 1R profit</li>
+          </ol>
+
+          <h4>Week-by-Week Approach (4–6 weeks)</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Week</th><th>Cumulative Target</th><th>Risk Level</th><th>Trades/Day</th></tr></thead>
+              <tbody>
+                <tr><td>Week 1</td><td>+2–3%</td><td>0.5–1%</td><td>1–2</td></tr>
+                <tr><td>Week 2</td><td>+4–6%</td><td>0.5–1%</td><td>1–3</td></tr>
+                <tr><td>Week 3</td><td>+7–9%</td><td style="color: var(--yellow);">Reduce to 0.5%</td><td>1–2</td></tr>
+                <tr><td>Week 4+</td><td style="color: var(--green); font-weight: 700;">Hit 10%+ → STOP</td><td>0.5% only</td><td>1</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout danger">
+            ⚠️ <strong>"Week 3 Death Spiral":</strong> When at 8–9% profit, the urge to take big risks to finish fast is the #1 killer. The bot MUST reduce risk near the target, not increase it.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PLATFORM COMPARISON ===== -->
+  <section class="section" id="ftmo-s3">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Platform Comparison — MT5 vs cTrader</h2>
+    </div>
+
+    <div class="collapsible open">
+      <button class="collapsible-toggle">
+        Supported Platforms &amp; Recommendation
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Platform</th><th>Language</th><th>EA Support</th><th>Best For</th></tr></thead>
+              <tbody>
+                <tr><td><strong>MetaTrader 4</strong></td><td>MQL4</td><td>Full EA support</td><td>Classic forex EAs</td></tr>
+                <tr style="background: var(--green-bg);">
+                  <td><strong>MetaTrader 5</strong> ⭐</td><td>MQL5</td><td>Full EA support</td><td style="color: var(--green); font-weight: 700;">Best overall for FTMO bots</td>
+                </tr>
+                <tr><td><strong>cTrader</strong></td><td>C# (cAlgo)</td><td>Full cBot support</td><td>Modern API, programmers</td></tr>
+                <tr><td><strong>DXtrade</strong></td><td>Limited API</td><td>Limited</td><td>US clients only</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>MT5 (MQL5) — Recommended Choice</h4>
+          <ul>
+            <li>✅ Largest community &amp; code base</li>
+            <li>✅ Excellent built-in Strategy Tester for backtesting</li>
+            <li>✅ Massive MQL5 marketplace with examples</li>
+            <li>✅ Official Python package (<code>MetaTrader5</code>) for integration</li>
+            <li>✅ Works directly on FTMO servers</li>
+          </ul>
+
+          <h4>cTrader (C#) — Strong Alternative</h4>
+          <ul>
+            <li>✅ Modern C# language (cleaner than MQL)</li>
+            <li>✅ Open API for external connections (Python, REST, FIX)</li>
+            <li>✅ Free cBots on cTrader Store (including FTMO-specific ones)</li>
+            <li>⚠️ Smaller community than MT5</li>
+          </ul>
+
+          <h4>Python Integration</h4>
+          <p>Python can't trade directly, but works via bridges:</p>
+          <ol>
+            <li><strong>MT5 Python API</strong> — Official package, reads data + places orders (requires MT5 desktop on VPS)</li>
+            <li><strong>cTrader Open API</strong> — Connect Python via REST/FIX to cTrader</li>
+            <li><strong>Bridge approach:</strong> Python generates signals → EA/cBot executes trades</li>
+          </ol>
+
+          <pre><code><span class="cm"># Architecture for Python-powered FTMO bot</span>
+Python Strategy Engine (signals)
+    → MT5 Python API / cTrader Open API
+        → FTMO Trading Server<span class="code-label">Architecture</span></code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        VPS Requirements
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="callout info">💡 A VPS is <strong>essential</strong> for 24/7 bot operation. Location matters — get close to FTMO servers.</div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Provider</th><th>Price/mo</th><th>Location</th><th>Latency to FTMO</th></tr></thead>
+              <tbody>
+                <tr><td><strong>TradingFXVPS</strong></td><td>$20–50</td><td>London</td><td style="color: var(--green);">&lt;1ms</td></tr>
+                <tr><td><strong>ForexVPS365</strong></td><td>$25–50</td><td>London</td><td style="color: var(--green);">~1ms</td></tr>
+                <tr><td><strong>QuantVPS</strong></td><td>$30–50</td><td>London/Chicago</td><td style="color: var(--green);">&lt;1ms</td></tr>
+                <tr><td><strong>Vultr/DigitalOcean</strong></td><td style="color: var(--green);">$12–24</td><td>London</td><td>5–15ms</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Specs needed:</strong> 2–4 GB RAM, 2+ CPU cores, 40–80 GB SSD, Windows Server (for MT5). <strong>Budget option:</strong> Vultr London at $12/mo — good enough for non-<span class="abbr" data-tooltip="High-Frequency Trading">HFT</span> strategies.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Recommended Development Stack
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="tech-stack">
+            <div class="tech-tag"><span class="tag-role">Primary</span> MQL5 Expert Advisor on MT5</div>
+            <div class="tech-tag"><span class="tag-role">Backtest</span> MT5 Strategy Tester</div>
+            <div class="tech-tag"><span class="tag-role">Analysis</span> Python + pandas + numpy</div>
+            <div class="tech-tag"><span class="tag-role">Alt Backtest</span> Backtrader / Zipline</div>
+            <div class="tech-tag"><span class="tag-role">Charts</span> TradingView</div>
+            <div class="tech-tag"><span class="tag-role">Infra</span> London VPS ($12–50/mo)</div>
+            <div class="tech-tag"><span class="tag-role">Monitor</span> Telegram Bot Alerts</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMPETITOR COMPARISON ===== -->
+  <section class="section" id="ftmo-s4">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>Competitor Comparison</h2>
+    </div>
+
+    <div class="collapsible open">
+      <button class="collapsible-toggle">
+        Prop Firm Status (Feb 2026) — Who's Still Standing
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Firm</th><th>Status</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td><strong>FTMO</strong></td><td style="color: var(--green); font-weight: 700;">✅ Active</td><td>Industry leader, Czech Republic, $500M+ paid</td></tr>
+                <tr><td><strong>FundedNext</strong></td><td style="color: var(--green);">✅ Active</td><td>UAE-based, strong competitor, relaxed rules</td></tr>
+                <tr><td><strong>E8 Markets</strong></td><td style="color: var(--green);">✅ Active</td><td>Up to $500K accounts, no min trading days</td></tr>
+                <tr><td><strong>FTUK</strong></td><td style="color: var(--green);">✅ Active</td><td>UK-based, scaling to $6.4M</td></tr>
+                <tr><td><strong>The 5%ers</strong></td><td style="color: var(--green);">✅ Active</td><td>Israel-based, instant funding option</td></tr>
+                <tr><td><strong>Funded Trading Plus</strong></td><td style="color: var(--green);">✅ Active</td><td>UK, up to 100% profit split</td></tr>
+                <tr><td><strong>Alpha Capital Group</strong></td><td style="color: var(--green);">✅ Active</td><td>UK, cTrader focus</td></tr>
+                <tr><td>MyForexFunds</td><td style="color: var(--red); font-weight: 700;">❌ SHUT DOWN</td><td>CFTC closed it ($300M fraud, Sept 2023)</td></tr>
+                <tr><td>True Forex Funds</td><td style="color: var(--red); font-weight: 700;">❌ SHUT DOWN</td><td>Insolvency, MetaQuotes pulled licenses</td></tr>
+                <tr><td>SurgeTrader</td><td style="color: var(--red); font-weight: 700;">❌ SHUT DOWN</td><td>Ceased operations 2024</td></tr>
+                <tr><td>The Funded Trader</td><td style="color: var(--yellow);">⚠️ Troubled</td><td>Multiple complaints, reputation damaged</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Top EA-Friendly Firms — Feature Comparison
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Feature</th><th>FTMO</th><th>FundedNext</th><th>E8 Markets</th><th>FTUK</th><th>The 5%ers</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Max Account</strong></td><td>$200K ($2M)</td><td>$200K ($4M)</td><td>$500K</td><td>$200K ($6.4M)</td><td>$128K ($4M)</td></tr>
+                <tr><td><strong>EAs Allowed</strong></td><td style="color: var(--green);">✅</td><td style="color: var(--green);">✅</td><td style="color: var(--green);">✅</td><td style="color: var(--green);">✅</td><td style="color: var(--green);">✅</td></tr>
+                <tr><td><strong>Profit Split</strong></td><td>80–90%</td><td>Up to 90%</td><td style="color: var(--green); font-weight: 700;">Up to 100%</td><td>Up to 80%</td><td>Up to 80%</td></tr>
+                <tr><td><strong>Challenge Fee ($100K)</strong></td><td>~€540</td><td>~$549</td><td style="color: var(--green);">~$488</td><td>~$549</td><td>~$450</td></tr>
+                <tr><td><strong>Min Trading Days</strong></td><td>4</td><td>5</td><td style="color: var(--green); font-weight: 700;">0 (none!)</td><td>0</td><td>0</td></tr>
+                <tr><td><strong>Time Limit</strong></td><td>Unlimited</td><td>30–60 days</td><td>Unlimited</td><td>Unlimited</td><td>Unlimited</td></tr>
+                <tr><td><strong>Profit Target P1</strong></td><td>10%</td><td>10%</td><td style="color: var(--green);">8%</td><td>10%</td><td>8%</td></tr>
+                <tr><td><strong>News Trading</strong></td><td style="color: var(--yellow);">Restricted</td><td style="color: var(--green);">Allowed</td><td style="color: var(--green);">Allowed</td><td style="color: var(--green);">Allowed</td><td style="color: var(--green);">Allowed</td></tr>
+                <tr><td><strong>Payouts</strong></td><td>Bi-weekly</td><td>Bi-weekly</td><td style="color: var(--green); font-weight: 700;">On demand</td><td>Monthly</td><td>Bi-weekly</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>Ranking for Bot Trading (Best → Hardest)</h4>
+          <div class="strategy-rec">
+            <div class="strategy-rec-item">
+              <div class="rank">1</div>
+              <div>
+                <div class="strat-name">E8 Markets</div>
+                <div class="strat-detail">No min trading days, 8% target, unlimited time, on-demand payouts, up to 100% split</div>
+              </div>
+            </div>
+            <div class="strategy-rec-item">
+              <div class="rank">2</div>
+              <div>
+                <div class="strat-name">FundedNext</div>
+                <div class="strat-detail">Allows everything (news, weekends, EAs), cheaper entry, scales to $4M</div>
+              </div>
+            </div>
+            <div class="strategy-rec-item">
+              <div class="rank">3</div>
+              <div>
+                <div class="strat-name">FTMO</div>
+                <div class="strat-detail">Industry standard, most reliable payouts ($500M+ paid), but stricter risk monitoring recently</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout info" style="margin-top: 16px;">
+            💡 <strong>Recommendation:</strong> Start with <strong>FTMO</strong> (reputation + reliability) or <strong>FundedNext</strong> (more relaxed rules + cheaper). E8 Markets is easiest to pass but newer.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Known FTMO Bot Strategies (Community)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Commercial EAs (Paid)</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>EA Name</th><th>Price</th><th>Platform</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Forex Flex EA</strong> (FTMO mode)</td><td>$330+</td><td>MT4/MT5</td><td>Has specific prop firm mode</td></tr>
+                <tr><td><strong>Phantom EA</strong></td><td>$200–500</td><td>MT4/MT5</td><td>Claims 80%+ backtest pass rate</td></tr>
+                <tr><td><strong>ADAM for FTMO</strong></td><td>$300+</td><td>MT5</td><td>AI/ML based, 17 years development</td></tr>
+                <tr><td><strong>WallStreet Forex Robot</strong></td><td>$270+</td><td>MT4/MT5</td><td>Long-established, scalping/trend</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>Free / Open Source</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Name</th><th>Source</th><th>Platform</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td><strong>PROPFIRM BOT</strong></td><td>cTrader Store</td><td>cTrader</td><td style="color: var(--green);">Free, 3,386 installs, preset for US100 on FTMO</td></tr>
+                <tr><td><strong>Prop Firm Passing EA</strong></td><td>Forex Factory</td><td>MT5</td><td>Neural network based, free</td></tr>
+                <tr><td><strong>FxChartAI Trading EA</strong></td><td>GitHub</td><td>MT5/MQL5</td><td>Open source, AI signals</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout warning">
+            ⚠️ <strong>Don't use widely-shared EAs.</strong> If FTMO detects identical trading patterns from the same EA across many traders, they may deny your account. <strong>Build your own or significantly modify existing ones.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== THE MATH / ROI ===== -->
+  <section class="section" id="ftmo-s5">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>The Math — ROI Analysis</h2>
+    </div>
+
+    <div class="collapsible open">
+      <button class="collapsible-toggle">
+        Investment Required &amp; Expected Attempts
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Upfront Costs ($100K Account)</h4>
+          <div class="capital-grid">
+            <div class="capital-item">
+              <div class="cap-label">Challenge Fee</div>
+              <div class="cap-value" style="font-size: 20px;">€540</div>
+              <div class="cap-note">~$600 (refunded on pass)</div>
+            </div>
+            <div class="capital-item">
+              <div class="cap-label">VPS Monthly</div>
+              <div class="cap-value" style="font-size: 20px;">$20–50</div>
+              <div class="cap-note">London server</div>
+            </div>
+            <div class="capital-item">
+              <div class="cap-label">EA (if buying)</div>
+              <div class="cap-value" style="font-size: 20px;">$0–500</div>
+              <div class="cap-note">One-time, or build your own</div>
+            </div>
+            <div class="capital-item">
+              <div class="cap-label">Total Upfront</div>
+              <div class="cap-value" style="font-size: 20px; color: var(--accent-light);">~$600–1,100</div>
+              <div class="cap-note">Per attempt</div>
+            </div>
+          </div>
+
+          <h4 style="margin-top: 24px;">Expected Attempts Before Passing</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Pass Rate</th><th>Expected Attempts</th><th>Total Challenge Cost</th></tr></thead>
+              <tbody>
+                <tr><td style="color: var(--green);">40% (optimistic bot)</td><td>2–3</td><td>$1,200–$1,800</td></tr>
+                <tr><td style="color: var(--yellow); font-weight: 700;">25% (realistic bot)</td><td>3–5</td><td style="font-weight: 700;">$1,800–$3,000</td></tr>
+                <tr><td style="color: var(--red);">10% (average trader)</td><td>8–12</td><td>$4,800–$7,200</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted);">FTMO offers 10–20% discounts regularly. Failed challenges sometimes get a free retry if you didn't breach drawdown (ended in profit but under target).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Monthly Income Once Funded
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>$100K Funded Account — Monthly Projections</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Monthly Return</th><th>Gross Profit</th><th>Your Share (80%)</th><th>Your Share (90% scaled)</th></tr></thead>
+              <tbody>
+                <tr><td>2% (conservative)</td><td>$2,000</td><td style="color: var(--green);">$1,600</td><td style="color: var(--green);">$1,800</td></tr>
+                <tr style="background: var(--green-bg);">
+                  <td style="font-weight: 700;">5% (moderate)</td><td>$5,000</td><td style="color: var(--green); font-weight: 700;">$4,000</td><td style="color: var(--green); font-weight: 700;">$4,500</td>
+                </tr>
+                <tr><td>8% (aggressive)</td><td>$8,000</td><td style="color: var(--green);">$6,400</td><td style="color: var(--green);">$7,200</td></tr>
+                <tr><td>10% (very good)</td><td>$10,000</td><td style="color: var(--green);">$8,000</td><td style="color: var(--green);">$9,000</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Scaling Potential — The Big Picture
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Timeline</th><th>Capital</th><th>Monthly Income (5%, 90% split)</th></tr></thead>
+              <tbody>
+                <tr><td>Start</td><td>$100K</td><td style="color: var(--green);">$4,500/mo</td></tr>
+                <tr><td>4 months</td><td>$200K</td><td style="color: var(--green);">$9,000/mo</td></tr>
+                <tr><td>8 months</td><td>$400K</td><td style="color: var(--green); font-weight: 700;">$18,000/mo</td></tr>
+                <tr><td>12 months</td><td>$500K</td><td style="color: var(--green); font-weight: 700;">$22,500/mo</td></tr>
+                <tr style="background: var(--green-bg);">
+                  <td style="font-weight: 700;">24 months</td><td style="font-weight: 700;">$800K–$2M</td><td style="color: var(--green); font-weight: 700;">$36,000–$90,000/mo</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Max allocation:</strong> $400K per trader initially, scalable to <strong>$2,000,000</strong> via Scaling Plan. Strategy: Run 4× $100K accounts simultaneously = $400K funded capital.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Break-Even Analysis
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">💰</div>
+              <div class="step-content">
+                <h4>Total invested (3 attempts + VPS)</h4>
+                <p>~€1,890 ($600 × 3 + $30/mo × 3)</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">📈</div>
+              <div class="step-content">
+                <h4>First payout (5% profit in first cycle)</h4>
+                <p>~$4,000 (80% of $5,000)</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">✅</div>
+              <div class="step-content">
+                <h4>Break-even: First payout cycle</h4>
+                <p>2–4 weeks after getting funded. You're profitable from day one of payouts.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RISK & LEGAL ===== -->
+  <section class="section" id="ftmo-s6">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2>Risk &amp; Legal Considerations</h2>
+    </div>
+
+    <div class="collapsible open">
+      <button class="collapsible-toggle">
+        Can FTMO Deny Payouts?
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="callout danger" style="margin-bottom: 16px;">
+            ⚠️ <strong>YES — and it happens.</strong> FTMO has gotten stricter in 2025–2026. Here are the real risks:
+          </div>
+          <ul>
+            <li><strong>The 1% Risk Rule (Aug 2025):</strong> FTMO now monitors risk per trade. Traders risking &gt;1–1.5% report payout delays and warnings. Not in the ToS but enforced via email.</li>
+            <li><strong>Trade Holding Duration:</strong> A trader had a $3,800 payout denied for holding 11 days — flagged as "inconsistent with sustainable trading."</li>
+            <li><strong>Strategy Changes:</strong> Dramatically changing your style between challenge and funded account gets you flagged.</li>
+            <li><strong>Duplicate EA Detection:</strong> Identical patterns from third-party EAs across multiple traders → account denial.</li>
+          </ul>
+
+          <h4>Mitigation Strategies</h4>
+          <ol>
+            <li>Keep risk at <strong>0.5–1% per trade</strong> (never exceed 1.5%)</li>
+            <li>Be consistent between challenge and funded account</li>
+            <li><strong>Build your own EA</strong> (don't use widely-distributed ones)</li>
+            <li>Trade regularly (don't go silent for weeks)</li>
+            <li>Don't hold trades excessively long</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Account Termination &amp; Multiple Accounts
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4 style="color: var(--red);">Instant Termination Triggers</h4>
+          <ul>
+            <li>Breaching max daily loss (5%)</li>
+            <li>Breaching max total loss (10%)</li>
+            <li>Using forbidden strategies (martingale, arbitrage, HFT)</li>
+            <li>Account inactivity (30+ days)</li>
+            <li>Third-party account management</li>
+            <li>Running identical strategy detected across many traders</li>
+          </ul>
+
+          <h4 style="color: var(--green);">Multiple Accounts — Allowed!</h4>
+          <ul>
+            <li>Unlimited accounts during Challenge/Verification</li>
+            <li>Max <strong>$400,000 combined</strong> once funded (Standard)</li>
+            <li>Aggressive accounts: max $200K combined</li>
+            <li>With Scaling Plan: up to <strong>$2,000,000</strong> total</li>
+          </ul>
+          <div class="callout info">💡 <strong>Strategy:</strong> Run 4× $100K accounts simultaneously = $400K funded. Each can use the same strategy or different ones.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Tax Implications in Romania 🇷🇴
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="callout warning" style="margin-bottom: 16px;">
+            ⚠️ FTMO profits are <strong>taxable in Romania</strong>. Payouts are classified as <strong>income from independent activities</strong> (not capital gains — you're not trading your own money).
+          </div>
+
+          <h4>Tax Structure for Individuals (Persoană Fizică)</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Tax Type</th><th>Rate</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Income Tax</strong></td><td>10%</td><td>On net income</td></tr>
+                <tr><td><strong>CAS (Pension)</strong></td><td>25%</td><td>If annual income &gt; 12 min wages (~58,320 RON)</td></tr>
+                <tr><td><strong>CASS (Health)</strong></td><td>10%</td><td>Tiered based on income brackets</td></tr>
+                <tr style="background: var(--yellow-bg);">
+                  <td style="font-weight: 700;">Effective Total</td><td style="font-weight: 700; color: var(--yellow);">~35–45%</td><td>Combined effective rate</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>PFA vs SRL</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Structure</th><th>Tax</th><th>Best For</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>PFA</strong> (Persoană Fizică Autorizată)</td>
+                  <td>10% income + CAS + CASS</td>
+                  <td>Small amounts (&lt;€2–3K/month)</td>
+                </tr>
+                <tr>
+                  <td><strong>SRL</strong> (Company)</td>
+                  <td>1% micro-enterprise or 16% corp + 8% dividend</td>
+                  <td>Larger amounts (&gt;€5K/month)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout danger">
+            ⚠️ <strong>ALWAYS declare FTMO income.</strong> FTMO is a Czech company — cross-border payments are trackable. File via Declarația Unică (Form 212) at ANAF. Deadline: May 25 of the following year. For &gt;€5K/month, consult a Romanian tax advisor about SRL structure.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        FTMO Success Statistics — Real Numbers
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead>
+              <tbody>
+                <tr><td>Challenge Pass Rate (P1)</td><td style="color: var(--yellow);">~8–10%</td><td>FTMO official</td></tr>
+                <tr><td>Verification Pass Rate (P2)</td><td>~40% of P1 passers</td><td>Community estimates</td></tr>
+                <tr><td>Overall Pass Rate (both phases)</td><td style="color: var(--red);">~3–5%</td><td>Calculated</td></tr>
+                <tr><td>Funded → Actually Paid</td><td>~20% of funded</td><td>TradeLikeMaster</td></tr>
+                <tr><td style="font-weight: 700;">True Success Rate</td><td style="color: var(--red); font-weight: 700;">~1.6–2%</td><td>Calculated</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>FTMO Revenue &amp; Legitimacy</h4>
+          <ul>
+            <li><strong>$500M+</strong> paid in rewards worldwide (as of 2026)</li>
+            <li><strong>$300,000+/day</strong> paid out</li>
+            <li><strong>3.5M+ customers</strong> worldwide</li>
+            <li>Average payout: <strong>~$3,386</strong></li>
+            <li>Average payout processing: <strong>8 hours</strong></li>
+            <li>Trustpilot: <strong>4.8/5</strong></li>
+          </ul>
+
+          <div class="callout success">
+            ✅ <strong>FTMO is legitimate.</strong> Operating since 2015, Czech Republic, regulated, $500M+ paid out. The low pass rate is a feature, not a bug — it's how their business model works.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STEP-BY-STEP ROADMAP ===== -->
+  <section class="section" id="ftmo-s7">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2>Step-by-Step Roadmap</h2>
+    </div>
+
+    <div class="collapsible open">
+      <button class="collapsible-toggle">
+        Phase 0: Learning &amp; Preparation (1–2 weeks)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Sign up for FTMO Free Trial (14 days, unlimited retries)</h4>
+                <p>Free, no payment required. Same rules as real challenge. Test your strategy in real conditions. <a href="https://ftmo.com/en/ftmo-free-trial/" target="_blank">ftmo.com/free-trial</a></p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Choose your platform: MetaTrader 5</h4>
+                <p>Largest community, best backtester, most EA examples. Alternative: cTrader if you prefer C#/API access.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Learn MQL5 basics</h4>
+                <p>MQL5.com documentation + YouTube tutorials. Focus on: order execution, risk management functions, indicator integration.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Phase 1: Strategy Development (2–4 weeks)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h4>Choose your strategy: London Session Breakout</h4>
+                <p>Simplest to code, proven results. Pairs: EURUSD, GBPUSD. Timeframe: M15. Risk: 0.75% per trade. R:R: 1:2 minimum.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">5</div>
+              <div class="step-content">
+                <h4>Code the EA with FTMO-specific features</h4>
+                <p>Daily P&L tracker (stop at -3%), overall drawdown monitor, max trades/day limiter (3), session time filter, Friday closing rule, news avoidance, spread filter, trailing stop after 1R profit.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">6</div>
+              <div class="step-content">
+                <h4>Backtest extensively</h4>
+                <p>MT5 Strategy Tester with tick data. Minimum 2 years (2024–2025). Test with FTMO constraints (daily drawdown, total drawdown, min 4 days). Target: &gt;50% win rate with 1:2 R:R.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Phase 2: Demo Testing (2–4 weeks)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">7</div>
+              <div class="step-content">
+                <h4>Run on FTMO Free Trial</h4>
+                <p>Set up VPS (London). Install MT5 + EA. Run 2–4 weeks. Track: daily P&L, max drawdown, trade count. <strong>Goal: "Pass" 2–3 free trials in a row.</strong></p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">8</div>
+              <div class="step-content">
+                <h4>Optimize based on results</h4>
+                <p>Adjust SL/TP levels. Fine-tune session timing. Adjust risk per trade. Test on different pairs.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Phase 3: Live Challenge (4–8 weeks)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">9</div>
+              <div class="step-content">
+                <h4>Start with $50K or $100K challenge</h4>
+                <p>Recommended first: <strong>$50K Standard 2-Step</strong> (€345). Lower fee = less risk while proving the bot. Use 2-Step (easier 5% daily loss limit).</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">10</div>
+              <div class="step-content">
+                <h4>Let the bot run — Phase 1 (4–6 weeks)</h4>
+                <p>Monitor daily but don't intervene unless critical. Be prepared for drawdown periods. Trust the backtested strategy.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">11</div>
+              <div class="step-content">
+                <h4>Pass Phase 2 — Verification (3–4 weeks)</h4>
+                <p>Same strategy, same risk. Only need 5% now. Reduce risk to 0.5% per trade — be extra cautious.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Phase 4: Funded &amp; Scaling (Ongoing)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">12</div>
+              <div class="step-content">
+                <h4>Funded: Keep consistent, collect payouts</h4>
+                <p>Same strategy (consistency matters!). Target 3–5% per bi-weekly cycle. Keep risk at 0.5–1%. Withdraw profits bi-weekly.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">13</div>
+              <div class="step-content">
+                <h4>Scale up</h4>
+                <p>After 1st payout: start 2nd challenge. Goal: 2× $100K ($200K funded). After 4 months: Scaling Plan (+25% balance). Long-term: $400K → $2M.</p>
+              </div>
+            </div>
+          </div>
+
+          <h4 style="margin-top: 24px;">Full Timeline Summary</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Week</th><th>Activity</th></tr></thead>
+              <tbody>
+                <tr><td>1–2</td><td>Learn MQL5, design strategy, set up Free Trial</td></tr>
+                <tr><td>3–6</td><td>Code EA, backtest, optimize</td></tr>
+                <tr><td>7–10</td><td>Run on FTMO Free Trial (demo)</td></tr>
+                <tr style="background: var(--accent-glow);">
+                  <td style="font-weight: 700;">11–16</td><td style="font-weight: 700;">First real challenge (Phase 1)</td>
+                </tr>
+                <tr style="background: var(--accent-glow);">
+                  <td style="font-weight: 700;">17–20</td><td style="font-weight: 700;">Phase 2 (Verification)</td>
+                </tr>
+                <tr style="background: var(--green-bg);">
+                  <td style="font-weight: 700; color: var(--green);">21+</td><td style="font-weight: 700; color: var(--green);">Funded account — earning money 💰</td>
+                </tr>
+                <tr><td>25+</td><td>Start 2nd challenge to scale</td></tr>
+                <tr style="background: var(--green-bg);">
+                  <td style="font-weight: 700; color: var(--green);">35+</td><td style="color: var(--green);">$200–400K funded, $9–18K/month</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Pre-Launch Checklist ✅
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <p style="color: var(--text-secondary); margin-bottom: 16px;">Before going live with real money, your bot must pass ALL of these on demo:</p>
+          <ul>
+            <li>✅ Achieves 10%+ profit in simulated challenge</li>
+            <li>✅ Never breaches 5% daily loss limit</li>
+            <li>✅ Never breaches 10% total loss limit</li>
+            <li>✅ Trades on minimum 4 different days</li>
+            <li>✅ Risk per trade never exceeds 1%</li>
+            <li>✅ Maximum 3–5 trades per day</li>
+            <li>✅ Does not trade during high-impact news</li>
+            <li>✅ Closes all positions before weekend</li>
+            <li>✅ Handles spread widening gracefully</li>
+            <li>✅ Works on FTMO's specific spread/commission structure</li>
+            <li>✅ Successfully passed 3+ consecutive simulated challenges</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FTMO FOOTNOTE -->
+  <div class="footnote">
+    <p>FTMO research compiled February 2026. Prop firm rules change frequently — always verify current rules on <a href="https://ftmo.com" target="_blank">ftmo.com</a> before starting a challenge.</p>
+    <p style="margin-top: 6px;">Sources: FTMO official documentation, Forex Factory, Reddit (r/Forex, r/FTMO_Forex_Trading), cTrader Store, MQL5 community, TradeLikeMaster data, ArbitrageScanner.io, Trustpilot reviews.</p>
+  </div>
+
+</div><!-- end FTMO tab -->
 
 <!-- ==================== FULL RESEARCH TAB ==================== -->
 <div class="tab-content" id="tab-full">
