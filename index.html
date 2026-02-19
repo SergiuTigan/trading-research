@@ -1,0 +1,2579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trading Bot Research — Feb 2026</title>
+<style>
+/* ========== RESET & BASE ========== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-card: #1a1a2e;
+  --bg-card-hover: #1f1f35;
+  --bg-code: #0d1117;
+  --border: #2a2a3e;
+  --border-light: #3a3a52;
+  --text-primary: #e4e4ef;
+  --text-secondary: #9999b0;
+  --text-muted: #6b6b80;
+  --accent: #7c5cfc;
+  --accent-light: #9b7eff;
+  --accent-glow: rgba(124, 92, 252, 0.15);
+  --green: #22c55e;
+  --green-bg: rgba(34, 197, 94, 0.08);
+  --green-border: rgba(34, 197, 94, 0.25);
+  --yellow: #eab308;
+  --yellow-bg: rgba(234, 179, 8, 0.08);
+  --yellow-border: rgba(234, 179, 8, 0.25);
+  --red: #ef4444;
+  --red-bg: rgba(239, 68, 68, 0.08);
+  --red-border: rgba(239, 68, 68, 0.25);
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'SF Mono', Consolas, monospace;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  --transition: 0.2s ease;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection { background: var(--accent); color: #fff; }
+
+/* ========== STICKY HEADER ========== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--accent), #a78bfa);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.logo-badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--accent-glow);
+  color: var(--accent-light);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ========== TABS ========== */
+.tabs {
+  display: flex;
+  gap: 0;
+  padding-top: 12px;
+}
+
+.tab {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition);
+  letter-spacing: 0.01em;
+  position: relative;
+}
+
+.tab:hover { color: var(--text-secondary); }
+
+.tab.active {
+  color: var(--accent-light);
+  border-bottom-color: var(--accent);
+}
+
+/* ========== MAIN CONTENT ========== */
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.tab-content { display: none; animation: fadeIn 0.3s ease; }
+.tab-content.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== TLDR SECTION ========== */
+.tldr-hero {
+  text-align: center;
+  padding: 48px 0 40px;
+}
+
+.tldr-hero h1 {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  background: linear-gradient(135deg, #fff, var(--accent-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+}
+
+.tldr-hero p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.tldr-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.tldr-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  transition: all var(--transition);
+}
+
+.tldr-card:hover {
+  border-color: var(--border-light);
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.tldr-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.tldr-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.tldr-card-title {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.tldr-card-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Strategy cards in TLDR */
+.strategy-rec {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.strategy-rec-item {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.strategy-rec-item .rank {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--accent-glow);
+  color: var(--accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.strategy-rec-item .strat-name {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.strategy-rec-item .strat-detail {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.strategy-rec-item .strat-returns {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--green-bg);
+  color: var(--green);
+  border: 1px solid var(--green-border);
+  margin-top: 6px;
+}
+
+/* Avoid list */
+.avoid-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.avoid-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.avoid-list li::before {
+  content: '✕';
+  color: var(--red);
+  font-weight: 800;
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Capital table in TLDR */
+.capital-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.capital-item {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  text-align: center;
+}
+
+.capital-item .cap-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.capital-item .cap-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent-light);
+}
+
+.capital-item .cap-note {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Tech stack */
+.tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tech-tag {
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tech-tag .tag-role {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Steps */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  counter-reset: step-counter;
+}
+
+.step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  counter-increment: step-counter;
+}
+
+.step-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), #a78bfa);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.step-content h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.step-content p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Brutal truth */
+.truth-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.truth-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.truth-list li strong {
+  color: var(--text-primary);
+}
+
+.truth-list li .truth-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  font-size: 16px;
+}
+
+/* ========== FULL RESEARCH ========== */
+/* Table of Contents */
+.toc {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin-bottom: 40px;
+}
+
+.toc h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.toc-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.toc-list li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all var(--transition);
+}
+
+.toc-list li a:hover {
+  background: var(--accent-glow);
+  color: var(--accent-light);
+}
+
+.toc-list li a .toc-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  min-width: 24px;
+}
+
+/* Section styling */
+.section {
+  margin-bottom: 48px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-num {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-light);
+  background: var(--accent-glow);
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.02em;
+}
+
+.section h2 {
+  font-size: clamp(22px, 3.5vw, 28px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.section h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 32px 0 16px;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.section h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 24px 0 12px;
+  color: var(--text-primary);
+}
+
+.section p, .section li {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.section p { margin-bottom: 12px; }
+
+.section ul, .section ol {
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
+
+.section li { margin-bottom: 6px; }
+
+.section strong { color: var(--text-primary); }
+
+/* ========== COLLAPSIBLE SECTIONS ========== */
+.collapsible {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: border-color var(--transition);
+}
+
+.collapsible:hover { border-color: var(--border-light); }
+
+.collapsible-toggle {
+  width: 100%;
+  padding: 18px 24px;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: background var(--transition);
+}
+
+.collapsible-toggle:hover { background: var(--bg-card-hover); }
+
+.collapsible-toggle .chevron {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+  color: var(--text-muted);
+}
+
+.collapsible.open .collapsible-toggle .chevron { transform: rotate(180deg); }
+
+.collapsible-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.collapsible.open .collapsible-body { max-height: 5000px; }
+
+.collapsible-content {
+  padding: 0 24px 20px;
+}
+
+/* ========== STRATEGY TIER CARDS ========== */
+.tier-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 20px;
+}
+
+.tier-label.green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.tier-label.yellow { background: var(--yellow-bg); color: var(--yellow); border: 1px solid var(--yellow-border); }
+.tier-label.red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+
+.strategy-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 16px;
+  transition: all var(--transition);
+}
+
+.strategy-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.strategy-card.green-card { border: 1px solid var(--green-border); border-left: 3px solid var(--green); }
+.strategy-card.yellow-card { border: 1px solid var(--yellow-border); border-left: 3px solid var(--yellow); }
+.strategy-card.red-card { border: 1px solid var(--red-border); border-left: 3px solid var(--red); }
+
+.strategy-card h4 {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.strategy-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.meta-tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 5px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.meta-tag.returns { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+.meta-tag.capital { background: var(--accent-glow); color: var(--accent-light); border-color: rgba(124, 92, 252, 0.25); }
+.meta-tag.complexity-low { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+.meta-tag.complexity-med { background: var(--yellow-bg); color: var(--yellow); border-color: var(--yellow-border); }
+.meta-tag.complexity-high { background: var(--red-bg); color: var(--red); border-color: var(--red-border); }
+
+.strategy-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+
+.strategy-card .insight {
+  background: var(--accent-glow);
+  border: 1px solid rgba(124, 92, 252, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--accent-light);
+  margin-top: 12px;
+}
+
+.strategy-card .warning {
+  background: var(--red-bg);
+  border: 1px solid var(--red-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #fca5a5;
+  margin-top: 12px;
+}
+
+/* ========== TABLES ========== */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0 24px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+thead { background: var(--bg-card); }
+
+th {
+  padding: 14px 18px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+td {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+tr:last-child td { border-bottom: none; }
+
+tbody tr:hover { background: var(--bg-card); }
+
+td code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  background: var(--bg-code);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--accent-light);
+}
+
+/* ========== CODE BLOCKS ========== */
+pre {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px 24px;
+  overflow-x: auto;
+  margin: 16px 0 24px;
+  position: relative;
+}
+
+pre code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: #c9d1d9;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--bg-code);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--accent-light);
+}
+
+/* Syntax highlighting (dark theme) */
+.kw { color: #ff7b72; }
+.fn { color: #d2a8ff; }
+.str { color: #a5d6ff; }
+.cm { color: #8b949e; font-style: italic; }
+.num { color: #79c0ff; }
+.op { color: #ff7b72; }
+.var { color: #ffa657; }
+.cls { color: #7ee787; }
+.dec { color: #d2a8ff; }
+
+.code-label {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ========== TOOLTIPS ========== */
+.abbr {
+  border-bottom: 1px dotted var(--text-muted);
+  cursor: help;
+  position: relative;
+  white-space: nowrap;
+}
+
+.abbr:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2a2a40;
+  color: var(--text-primary);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  z-index: 200;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  border: 1px solid var(--border-light);
+  pointer-events: none;
+}
+
+.abbr:hover::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #2a2a40;
+  z-index: 200;
+}
+
+/* ========== CALLOUT BOXES ========== */
+.callout {
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  margin: 16px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.callout.info {
+  background: var(--accent-glow);
+  border: 1px solid rgba(124, 92, 252, 0.2);
+  color: var(--accent-light);
+}
+
+.callout.warning {
+  background: var(--yellow-bg);
+  border: 1px solid var(--yellow-border);
+  color: #fde68a;
+}
+
+.callout.danger {
+  background: var(--red-bg);
+  border: 1px solid var(--red-border);
+  color: #fca5a5;
+}
+
+.callout.success {
+  background: var(--green-bg);
+  border: 1px solid var(--green-border);
+  color: #86efac;
+}
+
+.callout strong { color: inherit; filter: brightness(1.2); }
+
+/* ========== RESPONSIVE ========== */
+@media (min-width: 768px) {
+  .tldr-grid { grid-template-columns: repeat(2, 1fr); }
+  .tldr-card.full-width { grid-column: 1 / -1; }
+}
+
+@media (max-width: 767px) {
+  .header-top { flex-wrap: wrap; gap: 8px; }
+  .tab { padding: 10px 16px; font-size: 13px; }
+  .main { padding: 24px 16px 60px; }
+  .tldr-hero { padding: 32px 0 24px; }
+  .collapsible-toggle { padding: 14px 16px; font-size: 15px; }
+  .collapsible-content { padding: 0 16px 16px; }
+  .strategy-card { padding: 18px; }
+  .toc { padding: 20px; }
+  pre { padding: 14px 16px; }
+  .capital-grid { grid-template-columns: 1fr 1fr; }
+  th, td { padding: 10px 12px; }
+}
+
+@media (max-width: 480px) {
+  .capital-grid { grid-template-columns: 1fr; }
+  .strategy-meta { gap: 6px; }
+  .meta-tag { font-size: 10px; }
+}
+
+/* ========== MISC ========== */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 40px 0;
+}
+
+.highlight { color: var(--accent-light); font-weight: 600; }
+
+a { color: var(--accent-light); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--accent); text-decoration: underline; }
+
+.footnote {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Progress indicator */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), #a78bfa);
+  z-index: 200;
+  transition: width 0.1s linear;
+}
+
+/* Back to top */
+.back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  z-index: 50;
+  font-size: 18px;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+  color: var(--accent-light);
+}
+
+/* Formula display */
+.formula {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 20px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--accent-light);
+  margin: 12px 0;
+  overflow-x: auto;
+}
+</style>
+</head>
+<body>
+
+<!-- Scroll Progress -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <div class="header-top">
+      <div class="logo">
+        <div class="logo-icon">🤖</div>
+        <div>
+          <div class="logo-text">Trading Bot Research</div>
+        </div>
+        <span class="logo-badge">FEB 2026</span>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" data-tab="tldr">⚡ TL;DR</button>
+      <button class="tab" data-tab="full">📄 Full Research</button>
+    </div>
+  </div>
+</header>
+
+<!-- Main -->
+<main class="main">
+
+<!-- ==================== TL;DR TAB ==================== -->
+<div class="tab-content active" id="tab-tldr">
+  <div class="tldr-hero">
+    <h1>Crypto Trading Bot<br>Cheat Sheet</h1>
+    <p>1,400 lines of research distilled into what you actually need to know. No fluff. No hype. Just signal.</p>
+  </div>
+
+  <div class="tldr-grid">
+
+    <!-- TOP 3 STRATEGIES -->
+    <div class="tldr-card full-width">
+      <div class="tldr-card-header">
+        <div class="tldr-card-icon" style="background: var(--green-bg); border: 1px solid var(--green-border);">🏆</div>
+        <div>
+          <div class="tldr-card-title">Top 3 Strategies for Retail</div>
+          <div class="tldr-card-subtitle">Ranked by risk-adjusted viability for a solo developer</div>
+        </div>
+      </div>
+      <div class="strategy-rec">
+        <div class="strategy-rec-item">
+          <div class="rank">1</div>
+          <div>
+            <div class="strat-name">Funding Rate Arbitrage</div>
+            <div class="strat-detail">
+              Go long spot + short perps on the same asset. Collect funding payments every 8 hours. Delta-neutral = minimal directional risk. <span class="abbr" data-tooltip="Centralized Exchange">CEX</span>es like Binance and OKX now have built-in tools for this.
+            </div>
+            <span class="strat-returns">15–25% APY · Lowest risk</span>
+          </div>
+        </div>
+        <div class="strategy-rec-item">
+          <div class="rank">2</div>
+          <div>
+            <div class="strat-name">Grid Trading</div>
+            <div class="strat-detail">
+              Place buy/sell orders at fixed intervals around a price range. Prints money in sideways markets (which is ~60% of the time). Simple to set up, no ML needed.
+            </div>
+            <span class="strat-returns">2–5% monthly · Medium risk</span>
+          </div>
+        </div>
+        <div class="strategy-rec-item">
+          <div class="rank">3</div>
+          <div>
+            <div class="strat-name"><span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span> Bot + Momentum Filter</div>
+            <div class="strat-detail">
+              Automated <span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span> with safety orders to lower your average entry. Add a momentum filter (200 <span class="abbr" data-tooltip="Simple Moving Average">SMA</span>) to avoid buying in downtrends. Works brilliantly in bull & ranging markets.
+            </div>
+            <span class="strat-returns">2–4% monthly · Medium risk</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHAT TO AVOID -->
+    <div class="tldr-card">
+      <div class="tldr-card-header">
+        <div class="tldr-card-icon" style="background: var(--red-bg); border: 1px solid var(--red-border);">🚫</div>
+        <div>
+          <div class="tldr-card-title">What to Avoid</div>
+          <div class="tldr-card-subtitle">Don't waste time or money here</div>
+        </div>
+      </div>
+      <ul class="avoid-list">
+        <li><span class="abbr" data-tooltip="Maximal Extractable Value — profit extracted by reordering transactions">MEV</span> / Sandwich attacks — avg profit dropped to $3/tx on Ethereum. Saturated.</li>
+        <li>Flash loan arb — requires $100K+ infra, dominated by pros. Tutorials are scams.</li>
+        <li><span class="abbr" data-tooltip="High-Frequency Trading">HFT</span> on major pairs — you're competing with co-located servers running at &lt;1ms. You'll lose.</li>
+        <li>YouTube strategies — if it's public, it's already crowded and decaying.</li>
+        <li><span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span> bots on altcoins without stop losses — Luna went from $80 to $0.0001.</li>
+        <li>High leverage (&gt;3x) on any automated strategy</li>
+      </ul>
+    </div>
+
+    <!-- MINIMUM CAPITAL -->
+    <div class="tldr-card">
+      <div class="tldr-card-header">
+        <div class="tldr-card-icon" style="background: var(--accent-glow); border: 1px solid rgba(124,92,252,0.25);">💰</div>
+        <div>
+          <div class="tldr-card-title">Minimum Capital</div>
+          <div class="tldr-card-subtitle">What you actually need to start</div>
+        </div>
+      </div>
+      <div class="capital-grid">
+        <div class="capital-item">
+          <div class="cap-label">Absolute Minimum</div>
+          <div class="cap-value">$1K</div>
+          <div class="cap-note">Grid / DCA only</div>
+        </div>
+        <div class="capital-item">
+          <div class="cap-label">Recommended Start</div>
+          <div class="cap-value">$5K</div>
+          <div class="cap-note">Funding arb viable</div>
+        </div>
+        <div class="capital-item">
+          <div class="cap-label">Multi-Strategy</div>
+          <div class="cap-value">$10K+</div>
+          <div class="cap-note">Run 2-3 strategies</div>
+        </div>
+        <div class="capital-item">
+          <div class="cap-label">Tuition Budget</div>
+          <div class="cap-value">$1-2K</div>
+          <div class="cap-note">Expect to lose this learning</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TECH STACK -->
+    <div class="tldr-card">
+      <div class="tldr-card-header">
+        <div class="tldr-card-icon" style="background: rgba(34,211,238,0.1); border: 1px solid rgba(34,211,238,0.25);">🛠️</div>
+        <div>
+          <div class="tldr-card-title">Recommended Tech Stack</div>
+          <div class="tldr-card-subtitle">For a frontend developer going into trading</div>
+        </div>
+      </div>
+      <div class="tech-stack">
+        <div class="tech-tag"><span class="tag-role">Research</span> Python + VectorBT</div>
+        <div class="tech-tag"><span class="tag-role">Bot</span> TypeScript + CCXT</div>
+        <div class="tech-tag"><span class="tag-role">DeFi</span> ethers.js</div>
+        <div class="tech-tag"><span class="tag-role">ML</span> LightGBM / scikit-learn</div>
+        <div class="tech-tag"><span class="tag-role">Framework</span> Freqtrade</div>
+        <div class="tech-tag"><span class="tag-role">Infra</span> AWS Tokyo VPS</div>
+        <div class="tech-tag"><span class="tag-role">Monitor</span> Telegram Bot</div>
+        <div class="tech-tag"><span class="tag-role">Data</span> CoinGlass API</div>
+      </div>
+    </div>
+
+    <!-- STEPS -->
+    <div class="tldr-card">
+      <div class="tldr-card-header">
+        <div class="tldr-card-icon" style="background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.25);">🚀</div>
+        <div>
+          <div class="tldr-card-title">Step 1-2-3 to Get Started</div>
+          <div class="tldr-card-subtitle">Your first 30 days</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>Set Up & Learn (Week 1–2)</h4>
+            <p>Create exchange accounts (Binance/Bybit), complete KYC, generate API keys (read-only first). Install Python + CCXT. Download 2 years of BTC/USDT candle data. Build your first SMA crossover strategy — it won't be profitable, but it teaches the mechanics.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>Backtest & Paper Trade (Week 3–6)</h4>
+            <p>Pick one Tier 1 strategy (funding arb or grid). Backtest with VectorBT across multiple market regimes. Run walk-forward analysis — if out-of-sample is within 50% of in-sample, you have a real edge. Paper trade for 2–4 weeks minimum.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Go Live Small (Week 7+)</h4>
+            <p>Deploy to AWS Tokyo VPS. Start with 10% of intended capital. Set Telegram alerts for every trade. Implement circuit breakers: 3% daily drawdown = auto-stop. Monitor obsessively for 2 weeks. Scale only after 4+ profitable weeks.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRUTAL TRUTH -->
+    <div class="tldr-card">
+      <div class="tldr-card-header">
+        <div class="tldr-card-icon" style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25);">💀</div>
+        <div>
+          <div class="tldr-card-title">The Brutal Truth</div>
+          <div class="tldr-card-subtitle">What nobody puts in their YouTube thumbnail</div>
+        </div>
+      </div>
+      <ul class="truth-list">
+        <li><span class="truth-icon">⚠️</span> <span><strong>Most trading bots lose money.</strong> The bot doesn't create the edge — it executes yours. No edge = faster money burning.</span></li>
+        <li><span class="truth-icon">💸</span> <span><strong>Fees are the silent killer.</strong> A bot trading 30x/day at 0.1% = 90% monthly in fees. You must beat that just to break even.</span></li>
+        <li><span class="truth-icon">🏢</span> <span><strong>Your competition spends billions.</strong> Jump Trading, Wintermute, Citadel — co-located FPGA servers. Your edge: small markets they ignore, DeFi complexity, speed of adaptation.</span></li>
+        <li><span class="truth-icon">📉</span> <span><strong>Strategies decay.</strong> Average lifespan: 18–24 months. The process of finding edges IS the edge, not any single strategy.</span></li>
+        <li><span class="truth-icon">🕰️</span> <span><strong>6–12 months of serious work</strong> before profitability. It's not a weekend project. Year 1 goal: don't lose money.</span></li>
+        <li><span class="truth-icon">📊</span> <span><strong>Simple holding often wins.</strong> Most wealth in crypto was created by HODLing BTC, not trading. If your edge isn't proven, <span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span> into BTC outperforms most bots over 5+ years.</span></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== FULL RESEARCH TAB ==================== -->
+<div class="tab-content" id="tab-full">
+
+  <!-- TABLE OF CONTENTS -->
+  <nav class="toc">
+    <h2>📑 Table of Contents</h2>
+    <ol class="toc-list">
+      <li><a href="#s1"><span class="toc-num">01</span> Trading Strategies That Actually Work</a></li>
+      <li><a href="#s2"><span class="toc-num">02</span> Technical Infrastructure</a></li>
+      <li><a href="#s3"><span class="toc-num">03</span> Data &amp; Signals</a></li>
+      <li><a href="#s4"><span class="toc-num">04</span> Risk Management (Critical)</a></li>
+      <li><a href="#s5"><span class="toc-num">05</span> Backtesting &amp; Validation</a></li>
+      <li><a href="#s6"><span class="toc-num">06</span> Real Numbers</a></li>
+      <li><a href="#s7"><span class="toc-num">07</span> What Actually Makes Money in 2025–2026</a></li>
+      <li><a href="#s8"><span class="toc-num">08</span> Specific Tools &amp; APIs</a></li>
+      <li><a href="#s9"><span class="toc-num">09</span> Case Studies</a></li>
+      <li><a href="#s10"><span class="toc-num">10</span> Step-by-Step Roadmap</a></li>
+      <li><a href="#appendix"><span class="toc-num">A–C</span> Appendices</a></li>
+    </ol>
+  </nav>
+
+  <!-- ===== SECTION 1: STRATEGIES ===== -->
+  <section class="section" id="s1">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>Trading Strategies That Actually Work</h2>
+    </div>
+
+    <h3>Strategy Tier List — Retail Viability</h3>
+
+    <!-- TIER 1 -->
+    <div class="tier-label green">🟢 TIER 1 — Realistic for Retail Traders</div>
+
+    <div class="strategy-card green-card">
+      <h4>Grid Trading</h4>
+      <div class="strategy-meta">
+        <span class="meta-tag returns">1–5% monthly</span>
+        <span class="meta-tag capital">Min $1K–$5K</span>
+        <span class="meta-tag complexity-low">Low Complexity</span>
+      </div>
+      <p><strong>How it works:</strong> Places buy/sell orders at fixed intervals around a price range. Profits from oscillation within a range.</p>
+      <p><strong>Best for:</strong> Sideways/ranging markets (which is most of the time).</p>
+      <p><strong>Risk:</strong> If the asset trends strongly downward, you're left holding bags. If it trends up, you miss the full move.</p>
+      <div class="insight">💡 <strong>Real data:</strong> Bitsgap reports average 11% 30-day return (Nov 2025), but likely cherry-picked. Realistic long-term: 2–5% monthly during ranging, with losing months during trends.</div>
+    </div>
+
+    <div class="strategy-card green-card">
+      <h4><span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span> (Dollar Cost Averaging) Bots</h4>
+      <div class="strategy-meta">
+        <span class="meta-tag returns">2–4% monthly</span>
+        <span class="meta-tag capital">Min $1K–$3K</span>
+        <span class="meta-tag complexity-low">Low–Med Complexity</span>
+      </div>
+      <p><strong>How it works:</strong> Buys at regular intervals, uses "safety orders" (buying more as price drops) to lower average entry. Takes profit at small % gains.</p>
+      <p><strong>Best for:</strong> Volatile assets with mean-reversion tendency.</p>
+      <p><strong>Real data:</strong> 3Commas documented 12.8% net profit over multiple months with 100% deal completion rate.</p>
+      <div class="warning">⚠️ <strong>Critical risk:</strong> In a sustained bear market, safety orders keep buying the dip all the way down. This is essentially Martingale-lite. The Luna crash destroyed every <span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span> bot running on it.</div>
+    </div>
+
+    <div class="strategy-card green-card">
+      <h4>Funding Rate Arbitrage</h4>
+      <div class="strategy-meta">
+        <span class="meta-tag returns">15–30% APY</span>
+        <span class="meta-tag capital">Min $5K–$10K</span>
+        <span class="meta-tag complexity-med">Medium Complexity</span>
+      </div>
+      <p><strong>How it works:</strong> Go long spot + short perpetual futures on the same asset. Collect funding payments when rates are positive (most of the time in bull markets).</p>
+      <p><strong>Edge:</strong> Genuinely accessible to retail. Binance, OKX, and Crypto.com all have built-in funding rate arb bots.</p>
+      <p><strong>Real data:</strong> ArbitrageScanner.io client earned 0.45% daily (funding fees averaging 0.15% every 8 hours) plus convergence profit.</p>
+      <div class="insight">💡 <strong>Key insight:</strong> Delta-neutral strategy — minimal directional risk. 8–15% annually from institutions, 15–30% APY during high-sentiment bull markets.</div>
+      <div class="warning">⚠️ Funding rates can flip negative. Exchange risk (your money is on the exchange). Liquidation risk if not properly hedged.</div>
+    </div>
+
+    <div class="strategy-card green-card">
+      <h4>Momentum / Trend Following</h4>
+      <div class="strategy-meta">
+        <span class="meta-tag returns">20–50% annually</span>
+        <span class="meta-tag capital">Min $2K+</span>
+        <span class="meta-tag complexity-med">Medium Complexity</span>
+      </div>
+      <p><strong>How it works:</strong> Identifies assets trending up (or down) and rides the trend. Uses indicators like moving averages, <span class="abbr" data-tooltip="Relative Strength Index">RSI</span>, <span class="abbr" data-tooltip="Moving Average Convergence Divergence">MACD</span>, or pure price action.</p>
+      <p><strong>Best for:</strong> Strong trending markets (crypto bull/bear runs). Works best on higher timeframes (4H, 1D).</p>
+      <div class="insight">💡 <strong>Combo edge:</strong> Volatility-filtered momentum (trading only during high-vol regimes) shows more stable equity curves than raw momentum.</div>
+    </div>
+
+    <div class="strategy-card green-card">
+      <h4>Mean Reversion</h4>
+      <div class="strategy-meta">
+        <span class="meta-tag returns">10–30% annually</span>
+        <span class="meta-tag capital">Min $2K+</span>
+        <span class="meta-tag complexity-med">Medium Complexity</span>
+      </div>
+      <p><strong>How it works:</strong> Buy when price is oversold (below the mean), sell when overbought. Uses Bollinger Bands, <span class="abbr" data-tooltip="Relative Strength Index">RSI</span>, Z-scores.</p>
+      <p><strong>Best for:</strong> Ranging markets, pairs trading. Works well for crypto-to-crypto pairs (e.g., ETH/BTC).</p>
+      <div class="warning">⚠️ <strong>Critical danger:</strong> In crypto, what looks like "mean reversion" can be a death spiral. Coins can go to zero. Always use stop losses.</div>
+    </div>
+
+    <!-- TIER 2 -->
+    <div class="tier-label yellow" style="margin-top: 36px;">🟡 TIER 2 — Possible for Technical Retail Traders</div>
+
+    <div class="strategy-card yellow-card">
+      <h4><span class="abbr" data-tooltip="Centralized Exchange">CEX</span>-to-<span class="abbr" data-tooltip="Centralized Exchange">CEX</span> Arbitrage</h4>
+      <div class="strategy-meta">
+        <span class="meta-tag returns">0.5–2% monthly</span>
+        <span class="meta-tag capital">Min $10K+</span>
+        <span class="meta-tag complexity-high">High Complexity</span>
+      </div>
+      <p><strong>How it works:</strong> Buy on exchange A where price is lower, sell on exchange B where price is higher. Requires pre-funded accounts on both sides.</p>
+      <p><strong>Current state (2025–2026):</strong> Most obvious arb opportunities are captured in &lt;100ms by institutional bots. Retail can still find opportunities on smaller/newer exchanges or during high-volatility events.</p>
+      <div class="warning">⚠️ Transfer times, withdrawal fees, and speed competition make this increasingly difficult. Margins shrinking rapidly.</div>
+    </div>
+
+    <div class="strategy-card yellow-card">
+      <h4>Triangular Arbitrage</h4>
+      <div class="strategy-meta">
+        <span class="meta-tag returns">0.01–0.1% per trade</span>
+        <span class="meta-tag capital">Min $5K+</span>
+        <span class="meta-tag complexity-high">High Complexity</span>
+      </div>
+      <p><strong>How it works:</strong> Exploit price discrepancies between three trading pairs on the SAME exchange (e.g., BTC→ETH→USDT→BTC, ending with more BTC).</p>
+      <p><strong>Implementation:</strong> Use WebSocket feeds to monitor all pair prices simultaneously. Calculate cross-rates in real-time. Execute only when profit &gt; 3× expected fees.</p>
+      <div class="warning">⚠️ Requires very fast execution. Opportunities last fractions of a second. After fees, many "profitable" cycles are actually losses.</div>
+    </div>
+
+    <div class="strategy-card yellow-card">
+      <h4>Sentiment-Based Trading</h4>
+      <div class="strategy-meta">
+        <span class="meta-tag returns">10–40% annually</span>
+        <span class="meta-tag capital">Min $2K+</span>
+        <span class="meta-tag complexity-high">High Complexity</span>
+      </div>
+      <p><strong>How it works:</strong> Scrape Twitter/X, Reddit, news sources. Run <span class="abbr" data-tooltip="Natural Language Processing">NLP</span>/sentiment analysis. Trade based on sentiment shifts.</p>
+      <p><strong>Key insight:</strong> Sentiment is a leading indicator for altcoins (especially memecoins) but a lagging indicator for Bitcoin. Best used as a FILTER on top of other strategies.</p>
+      <div class="insight">💡 <strong>2025–2026 edge:</strong> <span class="abbr" data-tooltip="Large Language Model">LLM</span>-powered sentiment analysis (using GPT/Claude to understand nuance) is the cutting edge. Raw keyword counting is obsolete.</div>
+    </div>
+
+    <!-- TIER 3 -->
+    <div class="tier-label red" style="margin-top: 36px;">🔴 TIER 3 — Mostly Institutional / Very Advanced</div>
+
+    <div class="strategy-card red-card">
+      <h4>Market Making</h4>
+      <div class="strategy-meta">
+        <span class="meta-tag returns">~0.2% of volume</span>
+        <span class="meta-tag capital">Min $10K–$50K+</span>
+        <span class="meta-tag complexity-high">Very High Complexity</span>
+      </div>
+      <p><strong>How it works:</strong> Continuously place bid and ask orders, profit from the spread. Provide liquidity.</p>
+      <p><strong>Why it's hard for retail:</strong> Institutional market makers (Jump Trading, Wintermute) have co-located servers with &lt;1ms latency. Retail bots operate at 100–500ms — you WILL get picked off.</p>
+      <p><strong>Where retail CAN market-make:</strong> Small/illiquid pairs on <span class="abbr" data-tooltip="Decentralized Exchange">DEX</span>es, new token launches, prediction markets (Polymarket).</p>
+      <div class="insight">💡 <strong>Tool:</strong> Hummingbot is the go-to open-source market making framework. $2B+ in trade volume generated by users.</div>
+    </div>
+
+    <div class="strategy-card red-card">
+      <h4><span class="abbr" data-tooltip="Maximal Extractable Value — profit extracted by reordering/inserting transactions in a block">MEV</span> / Sandwich Attacks</h4>
+      <div class="strategy-meta">
+        <span class="meta-tag returns">Declining rapidly</span>
+        <span class="meta-tag capital">$10K+ infra</span>
+        <span class="meta-tag complexity-high">Extreme Complexity</span>
+      </div>
+      <p><strong>Ethereum:</strong> Average net profit per sandwich attack dropped to <strong>$3</strong> in 2025. Monthly extraction fell from ~$10M (late 2024) to ~$2.5M (Oct 2025).</p>
+      <p><strong>Solana:</strong> Sandwich bots made $370–500M over 16 months. Still more profitable but increasingly competitive.</p>
+      <div class="warning">⚠️ Requires deep blockchain knowledge, custom infrastructure, block builder relationships. Ethical and legal gray area. <strong>Not realistic for retail on Ethereum.</strong></div>
+    </div>
+
+    <div class="strategy-card red-card">
+      <h4>Flash Loan Arbitrage</h4>
+      <div class="strategy-meta">
+        <span class="meta-tag returns">Negligible for retail</span>
+        <span class="meta-tag capital">$100K+ infra</span>
+        <span class="meta-tag complexity-high">Extreme Complexity</span>
+      </div>
+      <p><strong>How it works:</strong> Borrow massive amounts (no collateral), execute arbitrage across <span class="abbr" data-tooltip="Decentralized Exchange">DEX</span>es, repay in same transaction.</p>
+      <p><strong>Reality:</strong> "Yoink" earned $2.65M across 59 blocks — but required infrastructure worth hundreds of thousands. Most flash loan tutorials are scams or produce negligible returns.</p>
+      <div class="warning">⚠️ <strong>Not realistic for retail as a primary strategy.</strong> Fun to learn from an educational perspective only.</div>
+    </div>
+
+    <div class="strategy-card red-card">
+      <h4>Liquidation Sniping</h4>
+      <div class="strategy-meta">
+        <span class="meta-tag returns">Variable</span>
+        <span class="meta-tag capital">Deep DeFi knowledge</span>
+        <span class="meta-tag complexity-high">Extreme Complexity</span>
+      </div>
+      <p><strong>How it works:</strong> Monitor lending protocols (Aave, Compound) for positions about to be liquidated. Buy the discounted collateral.</p>
+      <div class="warning">⚠️ Same <span class="abbr" data-tooltip="Maximal Extractable Value">MEV</span> competition. Automated by sophisticated bots. <strong>Not realistic for retail.</strong></div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 2: TECHNICAL INFRASTRUCTURE ===== -->
+  <section class="section" id="s2">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>Technical Infrastructure</h2>
+    </div>
+
+    <div class="collapsible open">
+      <button class="collapsible-toggle">
+        Programming Language Comparison
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>🐍 Python — START HERE</h4>
+          <p>Fastest development time. Best ML/AI ecosystem (pandas, numpy, scikit-learn, pytorch). CCXT supports 100+ exchanges. Freqtrade, Jesse, OctoBot all use Python. Good enough performance for 95% of retail strategies.</p>
+          <p><strong>When to use:</strong> Everything except <span class="abbr" data-tooltip="High-Frequency Trading">HFT</span>. Strategy development, backtesting, ML signal generation, medium-frequency trading (&gt;1 second).</p>
+
+          <h4>📦 TypeScript/JavaScript — GOOD FOR FE DEVS</h4>
+          <p>Great async/event-driven model (perfect for WebSocket streams). <code>ethers.js</code> and <code>web3.js</code> are the best DeFi libraries. CCXT works in JS too. Within a few ms of Rust for network-bound operations.</p>
+          <p><strong>When to use:</strong> DeFi bots, WebSocket-heavy apps, Telegram/Discord integrations, leveraging existing skills.</p>
+
+          <h4>🦀 Rust — FOR SERIOUS PERFORMANCE</h4>
+          <p>Near C++ performance with memory safety. No garbage collector (deterministic latency). Best choice for Solana development. Growing in trading systems (Databento uses Rust in production).</p>
+          <p><strong>When to use:</strong> <span class="abbr" data-tooltip="Maximal Extractable Value">MEV</span> bots, Solana programs, high-frequency strategies where microseconds matter.</p>
+
+          <h4>⚡ C++ — OVERKILL FOR RETAIL</h4>
+          <p>Maximum performance, zero overhead. Industry standard for <span class="abbr" data-tooltip="High-Frequency Trading">HFT</span>. For crypto retail trading, the network is your bottleneck, not your code.</p>
+
+          <div class="callout info">
+            💡 <strong>The Real Insight:</strong> For crypto trading, network latency is almost always the bottleneck, not code execution speed. A Python bot on an AWS Tokyo VPS will beat a C++ bot running from your laptop. Choose Python or TypeScript for development speed, optimize infrastructure first.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Latency Requirements by Strategy
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr><th>Strategy</th><th>Acceptable Latency</th><th>Language</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span> / Grid</td><td>Seconds to minutes</td><td>Python, TypeScript</td></tr>
+                <tr><td>Momentum / Mean Reversion</td><td>100ms – 1s</td><td>Python, TypeScript</td></tr>
+                <tr><td>Funding Rate Arbitrage</td><td>1–10 seconds</td><td>Python, TypeScript</td></tr>
+                <tr><td><span class="abbr" data-tooltip="Centralized Exchange">CEX</span> Arbitrage</td><td>10–100ms</td><td>TypeScript, Rust</td></tr>
+                <tr><td>Market Making</td><td>1–50ms</td><td>Rust, C++, Java</td></tr>
+                <tr><td><span class="abbr" data-tooltip="Maximal Extractable Value">MEV</span> / Sandwich</td><td>&lt;10ms</td><td>Rust</td></tr>
+                <tr><td><span class="abbr" data-tooltip="High-Frequency Trading">HFT</span></td><td>&lt;1ms</td><td>C++</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Best Exchanges &amp; Their APIs
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Tier 1 — Primary Exchanges</h4>
+
+          <p><strong>Binance</strong> — Largest by volume. Spot: 0.10% maker/taker. Futures: 0.02%/0.05%. Best median latency from AWS Osaka. Restricted in some regions.</p>
+
+          <p><strong>Bybit</strong> — Futures maker 0.01%(!)/taker 0.055%. Very competitive for derivatives. Up to 100x leverage.</p>
+
+          <p><strong>OKX</strong> — Spot: 0.08%/0.10%. VIP tiers can reach -0.005% maker (they PAY you). Built-in Grid, <span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span>, Arb bots.</p>
+
+          <p><strong>dYdX (v4)</strong> — Decentralized perpetuals (Cosmos-based). Very competitive fees, often 0% maker. No KYC.</p>
+
+          <h4>Tier 2 — Specialized</h4>
+
+          <p><strong>Uniswap / <span class="abbr" data-tooltip="Decentralized Exchange">DEX</span>es</strong> — For DeFi strategies, token launches, <span class="abbr" data-tooltip="Maximal Extractable Value">MEV</span>. Gas costs can make strategies unprofitable on Ethereum.</p>
+
+          <p><strong>Hyperliquid</strong> — Rising star in 2025–2026 for perp <span class="abbr" data-tooltip="Decentralized Exchange">DEX</span> trading. No gas fees, order book-based, good API.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        VPS &amp; Server Positioning
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="callout info">💡 <strong>Golden Rule:</strong> Deploy your bot as close to the exchange's servers as possible.</div>
+
+          <h4>Binance Optimal Setup (Hummingbot 2023 Study)</h4>
+          <ol>
+            <li><strong>Best:</strong> AWS Osaka (ap-northeast-3) — lowest median latency</li>
+            <li><strong>Second:</strong> AWS Tokyo (ap-northeast-1)</li>
+            <li><strong>Third:</strong> AWS Seoul (ap-northeast-2)</li>
+            <li><strong>Avoid:</strong> US/EU regions (2–5x higher latency)</li>
+          </ol>
+
+          <h4>Practical Setup</h4>
+          <ul>
+            <li><strong>AWS t3.small/medium:</strong> ~$15–30/month — sufficient for most bots</li>
+            <li><strong>DigitalOcean/Vultr Singapore or Tokyo:</strong> $5–20/month — budget option</li>
+          </ul>
+
+          <h4>The Truth About Latency</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Setup</th><th>Round Trip</th></tr></thead>
+              <tbody>
+                <tr><td>Home (Europe → Binance)</td><td>~200–400ms</td></tr>
+                <tr><td>AWS Tokyo</td><td>~40–80ms</td></tr>
+                <tr><td>AWS Osaka</td><td>~30–60ms</td></tr>
+                <tr><td>Co-located institutional</td><td>&lt;1ms</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>For grid/<span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span>/funding arb, 200ms is fine. Only optimize for latency if doing arbitrage or market making.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        WebSocket vs REST
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Feature</th><th>REST</th><th>WebSocket</th></tr></thead>
+              <tbody>
+                <tr><td>Data freshness</td><td>Poll-based (stale)</td><td>Real-time push</td></tr>
+                <tr><td>Latency</td><td>Higher (HTTP overhead)</td><td>Lower (persistent)</td></tr>
+                <tr><td>Rate limits</td><td>Strict per-minute</td><td>More generous</td></tr>
+                <tr><td>Use case</td><td>Order placement, queries</td><td>Market data, order book</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout success">✅ <strong>Best practice:</strong> Use WebSocket for ALL market data feeds. Use REST only for order placement. CCXT Pro supports WebSocket: <code>watchOrderBook()</code>, <code>watchTrades()</code>, <code>watchTicker()</code>.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 3: DATA & SIGNALS ===== -->
+  <section class="section" id="s3">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Data &amp; Signals</h2>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        On-Chain Data (Whale/Smart Money Tracking)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Key Signals</h4>
+          <ul>
+            <li><strong>Exchange inflows:</strong> Large deposits → potential sell pressure</li>
+            <li><strong>Exchange outflows:</strong> Large withdrawals → accumulation (bullish)</li>
+            <li><strong>Whale wallet tracking:</strong> Follow known smart money wallets</li>
+            <li><strong>Stablecoin flows:</strong> Large USDT/USDC movements to exchanges → buying incoming</li>
+          </ul>
+
+          <h4>Tools</h4>
+          <ul>
+            <li><strong>Nansen:</strong> Smart Money labels, wallet tracking ($150/month)</li>
+            <li><strong>Arkham Intelligence:</strong> Entity labeling, on-chain tracking (free tier)</li>
+            <li><strong>Whale Alert:</strong> Free API for large transaction monitoring</li>
+            <li><strong>Dune Analytics:</strong> Custom SQL queries on blockchain data (free)</li>
+            <li><strong>Glassnode:</strong> On-chain metrics (exchange flows, MVRV, SOPR)</li>
+          </ul>
+
+          <h4>Implementation Approach</h4>
+          <ol>
+            <li>Use Whale Alert API for real-time large transaction alerts</li>
+            <li>Cross-reference with Nansen's smart money labels</li>
+            <li>Track exchange inflow/outflow trends (Glassnode API)</li>
+            <li>Build scoring system: positive signal (outflows) + negative signal (inflows)</li>
+            <li>Use as a FILTER on your primary strategy, not standalone</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Order Book Analysis
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Key Metrics</h4>
+          <ul>
+            <li><strong>Order Book Imbalance (<span class="abbr" data-tooltip="Order Book Imbalance — ratio of bid to ask volume">OBI</span>):</strong> &gt;1.5 = buying pressure, &lt;0.5 = selling pressure. Short-term predictive power.</li>
+            <li><strong>Bid-Ask Spread:</strong> Wider = less liquid, potential for market making</li>
+            <li><strong>Large order detection:</strong> Iceberg orders, whale walls</li>
+          </ul>
+
+          <h4>Volume Profile / <span class="abbr" data-tooltip="Volume Weighted Average Price">VWAP</span></h4>
+          <div class="formula">VWAP = Σ(Price × Volume) / Σ(Volume)</div>
+          <p>Use as dynamic support/resistance and fair value reference. <strong>Strategy:</strong> Buy below <span class="abbr" data-tooltip="Volume Weighted Average Price">VWAP</span>, sell above during ranging markets.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Funding Rates, Open Interest, Liquidation Levels
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Funding Rates</h4>
+          <p>Source: CoinGlass. Very high positive funding (&gt;0.1%) = market overheated. Negative funding = fear, potential bottom.</p>
+
+          <h4>Open Interest</h4>
+          <ul>
+            <li><strong>Rising OI + Rising Price:</strong> Strong trend, new money entering</li>
+            <li><strong>Rising OI + Falling Price:</strong> Bearish pressure building</li>
+            <li><strong>Falling OI:</strong> Positions closing, trend exhaustion</li>
+          </ul>
+
+          <h4>Liquidation Levels</h4>
+          <p>Large liquidation clusters act as magnets — price tends to sweep liquidations. Anticipate cascades and trade in the direction of the cascade.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        ML/AI Models That Actually Work
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>✅ What Works (Proven)</h4>
+          <ol>
+            <li><strong>LightGBM / XGBoost:</strong> 54–59% accuracy on crypto price direction. Features: momentum, volume, volatility, order book imbalance. Even 55% is profitable with proper risk management.</li>
+            <li><strong>Deep Reinforcement Learning (<span class="abbr" data-tooltip="Deep Reinforcement Learning">DRL</span>):</strong> Consistent profits even after transaction costs for execution optimization. Frameworks: Stable Baselines3, RLlib.</li>
+            <li><strong>Ensemble Methods:</strong> Combine multiple weak signals. Random Forest, Gradient Boosting ensembles reduce false signals.</li>
+            <li><strong><span class="abbr" data-tooltip="Natural Language Processing">NLP</span> / Sentiment:</strong> VADER (fast), BART MNLI (better), fine-tuned BERT, or <span class="abbr" data-tooltip="Large Language Model">LLM</span>-based analysis — emerging edge in 2025–2026.</li>
+          </ol>
+
+          <h4>❌ What DOESN'T Work</h4>
+          <ul>
+            <li>Pure LSTM/RNN for price prediction — easy to overfit</li>
+            <li>Complex neural networks on small datasets</li>
+            <li>Indicator-based ML (feeding <span class="abbr" data-tooltip="Relative Strength Index">RSI</span>, <span class="abbr" data-tooltip="Moving Average Convergence Divergence">MACD</span> into NNs)</li>
+            <li>Any model showing &gt;70% backtest accuracy — almost certainly overfit</li>
+            <li>Single-feature models</li>
+          </ul>
+
+          <div class="callout danger">⚠️ <strong>Avoiding Overfitting (#1 Problem):</strong> Use TimeSeriesSplit (never random split). Walk-forward validation. Limit features to &lt;20. If backtest Sharpe &gt; 3, you're probably overfit.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 4: RISK MANAGEMENT ===== -->
+  <section class="section" id="s4">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>Risk Management <span style="color: var(--red);">(CRITICAL)</span></h2>
+    </div>
+
+    <div class="callout danger" style="margin-bottom: 24px;">
+      ⚠️ <strong>This section is more important than any strategy.</strong> Every blown account was caused by poor risk management, not a bad strategy.
+    </div>
+
+    <div class="collapsible open">
+      <button class="collapsible-toggle">
+        Position Sizing
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Fixed Fractional (Best for Beginners)</h4>
+          <p>Risk 1–2% of capital per trade. Example: $10K account, 1% risk = $100 max loss. If stop loss is 5%, position size = $100 / 5% = $2,000.</p>
+
+          <h4>Kelly Criterion (Optimal but Aggressive)</h4>
+          <div class="formula">K% = W − [(1−W) / R]</div>
+          <p>W = Win probability, R = Win/loss ratio. Example: 55% win rate, 1.5:1 R:R → K% = 25%.</p>
+          <div class="callout warning">⚠️ <strong>CRITICAL: Use Quarter Kelly.</strong> Divide result by 4. Full Kelly assumes perfect edge estimation — it never is. In the example: 25% / 4 = <strong>6.25%</strong> per trade.</div>
+
+          <h4>For Crypto Specifically</h4>
+          <ul>
+            <li>Never risk more than 1–2% per trade</li>
+            <li>Total portfolio exposure: Max 20–30% at any time</li>
+            <li>No single strategy gets more than 30% of total capital</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Stop Losses &amp; Exit Management
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <ul>
+            <li><strong>Fixed Stop:</strong> 2–5% from entry. Always use stops. No exceptions.</li>
+            <li><strong>Trailing Stop:</strong> Trail at 3× <span class="abbr" data-tooltip="Average True Range — measure of price volatility">ATR</span> below highest price. Locks in profits during trends.</li>
+            <li><strong>Dynamic Risk:</strong> Use <span class="abbr" data-tooltip="Average True Range">ATR</span> to size stops. Higher vol = wider stops + smaller positions.</li>
+            <li><strong>Time-Based:</strong> Close dead trades after X hours. Capital is a resource.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Drawdown Protection &amp; Circuit Breakers
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <ul>
+            <li><strong>Daily drawdown limit:</strong> 3–5% of capital → STOP TRADING. Resume next day.</li>
+            <li><strong>Strategy drawdown:</strong> 10–15% → pause strategy. Review and re-evaluate.</li>
+            <li><strong>Portfolio circuit breaker:</strong> 15–20% total → halt ALL bots. Manual intervention required.</li>
+          </ul>
+
+          <pre><code><span class="dec">@dataclass</span>
+<span class="kw">class</span> <span class="cls">RiskLimits</span>:
+    <span class="var">max_position_size_pct</span>: <span class="cls">float</span> = <span class="num">10.0</span>   <span class="cm"># Max % per position</span>
+    <span class="var">stop_loss_pct</span>: <span class="cls">float</span> = <span class="num">2.0</span>            <span class="cm"># Default stop loss</span>
+    <span class="var">take_profit_pct</span>: <span class="cls">float</span> = <span class="num">5.0</span>         <span class="cm"># Default take profit</span>
+    <span class="var">risk_reward_ratio</span>: <span class="cls">float</span> = <span class="num">2.5</span>       <span class="cm"># Minimum R:R ratio</span>
+    <span class="var">max_consecutive_losses</span>: <span class="cls">int</span> = <span class="num">3</span>      <span class="cm"># Pause after 3 losses</span>
+    <span class="var">max_strategy_drawdown_pct</span>: <span class="cls">float</span> = <span class="num">10.0</span>
+    <span class="var">max_daily_loss_pct</span>: <span class="cls">float</span> = <span class="num">5.0</span>
+    <span class="var">max_portfolio_drawdown_pct</span>: <span class="cls">float</span> = <span class="num">20.0</span><span class="code-label">Python</span></code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Black Swan Protection
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <ol>
+            <li><strong>Always have stop losses</strong> — never remove them</li>
+            <li><strong>Keep 50–70% in stablecoins/cash</strong> — dry powder + protection</li>
+            <li><strong>Diversify across strategies</strong> — momentum + mean reversion + funding arb</li>
+            <li><strong>Diversify across exchanges</strong> — FTX collapse taught everyone this</li>
+            <li><strong>Never use high leverage</strong> — 2–3x maximum</li>
+            <li><strong>Hardware kill switch</strong> — flatten all positions instantly</li>
+            <li><strong>Monitor exchange health</strong> — watch for withdrawal delays</li>
+          </ol>
+
+          <div class="callout info">💡 <strong>Correlation risk:</strong> Don't run 5 strategies that all go long crypto — that's one strategy at 5x. Aim for uncorrelated: long/short mix, different timeframes, different assets.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 5: BACKTESTING ===== -->
+  <section class="section" id="s5">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>Backtesting &amp; Validation</h2>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Framework Comparison
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Framework</th><th>Speed</th><th>Best For</th><th>Stars</th></tr></thead>
+              <tbody>
+                <tr><td><strong>VectorBT</strong></td><td>⚡ Blazing fast</td><td>Rapid prototyping, optimization</td><td>Active dev</td></tr>
+                <tr><td><strong>Backtrader</strong></td><td>🐢 Slower</td><td>Realistic backtesting → live</td><td>Most popular</td></tr>
+                <tr><td><strong>QuantConnect</strong></td><td>☁️ Cloud-based</td><td>Multi-asset, institutional-grade</td><td>$24/mo</td></tr>
+                <tr><td><strong>Jesse</strong></td><td>🔄 Medium</td><td>Crypto-specific research</td><td>Clean API</td></tr>
+                <tr><td><strong>Freqtrade</strong></td><td>🔄 Medium</td><td>All-in-one crypto bot</td><td>30K+ ⭐</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout success">✅ <strong>Recommended workflow:</strong> Screen ideas (VectorBT) → Validate winners (Backtrader/Freqtrade) → Paper trade → Live small → Scale over 3–6 months.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Walk-Forward Analysis (WFA)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <p>Standard backtesting = studying answers before the test. <span class="abbr" data-tooltip="Walk-Forward Analysis — optimize on in-sample, test on out-of-sample, roll forward">WFA</span> = the actual exam.</p>
+
+          <h4>How It Works</h4>
+          <ol>
+            <li>Split data: e.g., 12 months optimize, 3 months test</li>
+            <li>Optimize on in-sample data (find best parameters)</li>
+            <li>Test those parameters on out-of-sample (next 3 months)</li>
+            <li>Roll forward, repeat with 8–10 windows minimum</li>
+            <li>Final performance = concatenation of all out-of-sample results</li>
+          </ol>
+
+          <div class="callout info">💡 <strong>Golden test:</strong> If walk-forward results are within 50% of in-sample results, the strategy likely has a real edge. If much worse, you're overfit.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Avoiding Overfitting — Red Flags &amp; Best Practices
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>🚩 Red Flags</h4>
+          <ul>
+            <li>Backtest Sharpe ratio &gt; 3.0</li>
+            <li>Win rate &gt; 70%</li>
+            <li>Strategy has &gt; 10 parameters</li>
+            <li>Only works on one specific asset or time period</li>
+          </ul>
+
+          <h4>✅ Best Practices</h4>
+          <ol>
+            <li>Minimize parameters: 3–5 tunable max</li>
+            <li>Simple strategies that work &gt; complex ones that overfit</li>
+            <li>Test across assets AND time periods</li>
+            <li>Include realistic fees (0.1%/trade) and slippage</li>
+            <li>Paper trade 1–3 months before going live</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 6: REAL NUMBERS ===== -->
+  <section class="section" id="s6">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2>Real Numbers</h2>
+    </div>
+
+    <div class="collapsible open">
+      <button class="collapsible-toggle">
+        Minimum Capital by Strategy
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Strategy</th><th>Minimum</th><th>Recommended</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td><span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span> Bot</td><td>$500</td><td>$1K–3K</td><td>Need room for safety orders</td></tr>
+                <tr><td>Grid Trading</td><td>$500</td><td>$2K–5K</td><td>More levels = more capital</td></tr>
+                <tr><td>Momentum/Mean Rev.</td><td>$1K</td><td>$3K–5K</td><td>Need to handle drawdowns</td></tr>
+                <tr><td>Funding Rate Arb</td><td>$5K</td><td>$10K–20K</td><td>Split spot + futures</td></tr>
+                <tr><td><span class="abbr" data-tooltip="Centralized Exchange">CEX</span>–<span class="abbr" data-tooltip="Centralized Exchange">CEX</span> Arb</td><td>$5K</td><td>$10K–50K</td><td>Pre-fund multiple exchanges</td></tr>
+                <tr><td>Market Making</td><td>$10K</td><td>$50K+</td><td>Significant inventory needed</td></tr>
+                <tr><td><span class="abbr" data-tooltip="Maximal Extractable Value">MEV</span>/Flash Loan</td><td>$1K + gas</td><td>$10K+</td><td>Infra costs matter more</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Realistic Monthly Returns
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Strategy</th><th>Bull</th><th>Sideways</th><th>Bear</th><th>Long-term Avg</th></tr></thead>
+              <tbody>
+                <tr><td>Grid Trading</td><td>5–15%</td><td>2–5%</td><td>-5 to -20%</td><td>2–5%</td></tr>
+                <tr><td><span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span> Bot</td><td>5–20%</td><td>1–4%</td><td>-10 to -30%*</td><td>2–4%</td></tr>
+                <tr><td>Momentum</td><td>10–30%</td><td>-5 to +5%</td><td>5–15% (short)</td><td>2–5%</td></tr>
+                <tr><td>Mean Reversion</td><td>3–8%</td><td>5–10%</td><td>3–8%</td><td>3–6%</td></tr>
+                <tr><td>Funding Arb</td><td>3–5%</td><td>1–2%</td><td>0.5–1%</td><td>1–2.5%</td></tr>
+                <tr><td>Market Making</td><td>2–5%</td><td>2–5%</td><td>2–5%</td><td>2–4%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted);">*DCA bots can lock capital in losing positions during bear markets</p>
+
+          <div class="callout danger">
+            ⚠️ <strong>Reality check:</strong> Average algo strategy lifespan: 18–24 months. 38% of retail algo traders have significant losses in year 1. Only top 5% of AI agents exceed 40% annual returns.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Fee Impact Analysis
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4><span class="abbr" data-tooltip="Centralized Exchange">CEX</span> Fees (Per Round Trip)</h4>
+          <ul>
+            <li><strong>Binance spot:</strong> 0.20% (0.10% each side)</li>
+            <li><strong>Binance futures:</strong> 0.07% (0.02% maker + 0.05% taker)</li>
+            <li><strong>Bybit futures:</strong> 0.065% (0.01% maker + 0.055% taker)</li>
+          </ul>
+
+          <h4>How Fees Kill Strategies</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Frequency</th><th>Monthly Fee Drag</th></tr></thead>
+              <tbody>
+                <tr><td>Daily (1 trade/day)</td><td>6%</td></tr>
+                <tr><td>Hourly</td><td style="color: var(--red); font-weight: 700;">144% 💀</td></tr>
+                <tr><td>Grid bot (30/day)</td><td style="color: var(--red); font-weight: 700;">180% 💀</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout warning">⚠️ <strong>You MUST use limit orders (maker fees)</strong> and trade on exchanges with maker rebates. Bybit VIP futures maker at 0% — this is why HF traders seek VIP status.</div>
+
+          <h4>DeFi Gas Costs</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Chain</th><th>Swap Cost</th></tr></thead>
+              <tbody>
+                <tr><td>Ethereum</td><td>$2–50+</td></tr>
+                <tr><td>Solana</td><td>&lt;$0.01</td></tr>
+                <tr><td>BSC</td><td>$0.10–0.50</td></tr>
+                <tr><td>Arbitrum/Base</td><td>$0.05–0.50</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Tax Implications
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>🇺🇸 USA</h4>
+          <p>Short-term gains (&lt;1 year): 10–37%. Bot trading = mostly short-term → 30%+ effective rate. EVERY trade is a taxable event. 1000 trades/month = 1000 tax events.</p>
+
+          <h4>🇷🇴 Romania</h4>
+          <p><strong>10% flat tax</strong> on capital gains from crypto. Must declare profits annually. Favorable compared to US/Western EU.</p>
+
+          <h4>Strategy for Bot Traders</h4>
+          <ol>
+            <li>Track everything — use API exports</li>
+            <li>Use tax software (Koinly, CoinTracker)</li>
+            <li>Consider trading through an entity (SRL)</li>
+            <li>Factor tax into returns: 20% annual → ~13–14% after US taxes, ~18% after Romanian taxes</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 7: WHAT MAKES MONEY ===== -->
+  <section class="section" id="s7">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2>What Actually Makes Money in 2025–2026</h2>
+    </div>
+
+    <div class="collapsible open">
+      <button class="collapsible-toggle">
+        Strategy Saturation Analysis
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4 style="color: var(--red);">🔴 Saturated (Declining Edge)</h4>
+          <ul>
+            <li>Simple <span class="abbr" data-tooltip="Centralized Exchange">CEX</span>-to-<span class="abbr" data-tooltip="Centralized Exchange">CEX</span> arb — captured in &lt;100ms by institutions</li>
+            <li>Ethereum <span class="abbr" data-tooltip="Maximal Extractable Value">MEV</span>/Sandwich — avg profit $3/attack</li>
+            <li>Simple indicator strategies (<span class="abbr" data-tooltip="Relative Strength Index">RSI</span> oversold → buy) — everyone does this</li>
+            <li>Public bot strategies (YouTube) — already crowded</li>
+          </ul>
+
+          <h4 style="color: var(--yellow);">🟡 Competitive (Still Profitable, Getting Harder)</h4>
+          <ul>
+            <li>Funding rate arb — exchange-built bots increasing competition</li>
+            <li>Grid trading on major pairs — margins shrinking</li>
+            <li>Solana <span class="abbr" data-tooltip="Maximal Extractable Value">MEV</span> — $370–500M in 16 months, getting competitive</li>
+            <li>Market making on mid-cap tokens</li>
+          </ul>
+
+          <h4 style="color: var(--green);">🟢 Still Has Edge</h4>
+          <ul>
+            <li><strong>Sentiment strategies using <span class="abbr" data-tooltip="Large Language Model">LLM</span>s</strong> — cutting edge, not yet commoditized</li>
+            <li><strong>Cross-chain arbitrage</strong> — bridges create latency → opportunities</li>
+            <li><strong>New chain/<span class="abbr" data-tooltip="Decentralized Exchange">DEX</span> launch sniping</strong> — first-mover advantage</li>
+            <li><strong>Prediction market arb</strong> — Polymarket, ~$40M extracted (Apr '24–Apr '25)</li>
+            <li><strong>Multi-signal ensembles</strong> — on-chain + sentiment + technical</li>
+            <li><strong>AI agent-powered trading</strong> — <span class="abbr" data-tooltip="Large Language Model">LLM</span>-based reasoning (nascent)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Retail vs Institutional Edge
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Where Institutions Win (Don't Compete)</h4>
+          <ul>
+            <li>Speed (co-located, FPGA, custom networking)</li>
+            <li>Capital (absorb larger losses, run more strategies)</li>
+            <li>Data (proprietary feeds, satellite imagery)</li>
+            <li>Latency-sensitive strategies (<span class="abbr" data-tooltip="High-Frequency Trading">HFT</span>, simple arb)</li>
+          </ul>
+
+          <h4>Where Retail CAN Win</h4>
+          <ul>
+            <li><strong>Flexibility:</strong> Trade illiquid tokens too small for institutions</li>
+            <li><strong>No bureaucracy:</strong> Deploy new strategies in hours, not months</li>
+            <li><strong>DeFi native:</strong> Many institutions struggle with DeFi complexity</li>
+            <li><strong>Long-tail markets:</strong> Small-cap tokens, new chains, prediction markets</li>
+            <li><strong>Novel signals:</strong> GitHub commits, Discord activity, etc.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Legal Considerations
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>✅ Legal</h4>
+          <ul>
+            <li>Automated trading on <span class="abbr" data-tooltip="Centralized Exchange">CEX</span>es</li>
+            <li>Grid/<span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span>/momentum bots</li>
+            <li>Market making (if not manipulative)</li>
+            <li>Cross-exchange arbitrage</li>
+          </ul>
+
+          <h4>⚠️ Gray Area</h4>
+          <ul>
+            <li><span class="abbr" data-tooltip="Maximal Extractable Value">MEV</span>/sandwich attacks — ethically questionable</li>
+            <li>Front-running on <span class="abbr" data-tooltip="Decentralized Exchange">DEX</span>es — scrutinized by regulators</li>
+            <li>Wash trading (even unintentional via bot loops)</li>
+          </ul>
+
+          <h4>🚫 Illegal</h4>
+          <ul>
+            <li>Market manipulation (spoofing, layering)</li>
+            <li>Insider trading (increasingly prosecuted in crypto)</li>
+          </ul>
+
+          <div class="callout info">💡 <strong>Regulatory trends (2025–2026):</strong> MiCA (EU) taking effect, SEBI (India) new framework, SEC (US) increasing scrutiny. Always comply with KYC/AML.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 8: TOOLS & APIs ===== -->
+  <section class="section" id="s8">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <h2>Specific Tools &amp; APIs</h2>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Core Libraries (CCXT, web3, ethers)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>CCXT — Unified Exchange Library</h4>
+          <p>Supports 100+ exchanges. Python, JS/TS, PHP, C#. REST + WebSocket (CCXT Pro).</p>
+
+          <pre><code><span class="kw">import</span> ccxt
+
+exchange = ccxt.<span class="fn">binance</span>({
+    <span class="str">'apiKey'</span>: <span class="str">'YOUR_KEY'</span>,
+    <span class="str">'secret'</span>: <span class="str">'YOUR_SECRET'</span>,
+    <span class="str">'options'</span>: {<span class="str">'defaultType'</span>: <span class="str">'future'</span>}
+})
+
+<span class="cm"># Fetch orderbook</span>
+orderbook = exchange.<span class="fn">fetch_order_book</span>(<span class="str">'BTC/USDT'</span>)
+
+<span class="cm"># Place order</span>
+order = exchange.<span class="fn">create_limit_buy_order</span>(<span class="str">'BTC/USDT'</span>, <span class="num">0.001</span>, <span class="num">40000</span>)<span class="code-label">Python</span></code></pre>
+
+          <pre><code><span class="cm"># WebSocket (CCXT Pro)</span>
+orderbook = <span class="kw">await</span> exchange.<span class="fn">watch_order_book</span>(<span class="str">'BTC/USDT'</span>)
+trades = <span class="kw">await</span> exchange.<span class="fn">watch_trades</span>(<span class="str">'BTC/USDT'</span>)<span class="code-label">Python</span></code></pre>
+
+          <div class="callout success">✅ <strong>Performance tip:</strong> Install <code>orjson</code> for 3–10x faster JSON parsing (critical for WebSocket). THE standard for multi-exchange bots.</div>
+
+          <h4>web3.py / ethers.js</h4>
+          <p>For Ethereum/EVM chain interaction. <code>web3.py</code> for Python, <code>ethers.js v6</code> for JS/TS (async-first, cleaner API). Use for Uniswap swaps, Aave interactions, smart contracts.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Signal &amp; Alert Tools
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <ul>
+            <li><strong>TradingView Webhooks:</strong> Alert → Webhook → Your server → Execute trade. Pro required ($14.95/month).</li>
+            <li><strong>Telegram Bot Alerts:</strong> Send notifications, portfolio updates, error alerts. Receive commands (pause, resume, status). Essential.</li>
+            <li><strong>LunarCrush API:</strong> Social/sentiment data for 4000+ crypto assets. Galaxy Score, AltRank.</li>
+            <li><strong>CoinGlass API:</strong> Funding rates, open interest, liquidation data. Essential for funding arb.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Cloud Infrastructure &amp; Key APIs
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Cloud</h4>
+          <ul>
+            <li><strong>AWS:</strong> ap-northeast-3 (Osaka) for Binance. t3.small $15/mo, t3.medium $30/mo.</li>
+            <li><strong>Budget:</strong> DigitalOcean/Vultr Singapore/Tokyo, $5–20/mo.</li>
+            <li><strong>Low Latency:</strong> QuantVPS ($20–100/mo).</li>
+          </ul>
+
+          <h4>Key APIs</h4>
+          <pre><code><span class="cm">Exchange APIs (via CCXT):</span>
+  Binance, Bybit, OKX, dYdX — REST + WebSocket
+
+<span class="cm">On-Chain:</span>
+  Alchemy/Infura — Ethereum RPC
+  Helius — Solana RPC
+  The Graph — Indexed blockchain data
+
+<span class="cm">Data:</span>
+  CoinGlass API — Derivatives data
+  Whale Alert API — Large transactions
+  LunarCrush API — Social metrics
+  CryptoPanic API — News aggregation
+
+<span class="cm">Execution:</span>
+  Flashbots — MEV protection / private txs
+  Jito — Solana MEV / tips<span class="code-label">Reference</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 9: CASE STUDIES ===== -->
+  <section class="section" id="s9">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <h2>Case Studies</h2>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Open Source Bots Worth Studying
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Bot</th><th>Language</th><th>Focus</th><th>Stars</th><th>Best For</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Freqtrade</strong></td><td>Python</td><td>Full bot framework</td><td>30K+ ⭐⭐⭐⭐⭐</td><td>Beginners → intermediate, all-in-one</td></tr>
+                <tr><td><strong>Hummingbot</strong></td><td>Python</td><td>Market making + arb</td><td>8K+ ⭐⭐⭐⭐</td><td>Market making, providing liquidity</td></tr>
+                <tr><td><strong>Jesse</strong></td><td>Python</td><td>Research-focused</td><td>⭐⭐⭐</td><td>Strategy research &amp; development</td></tr>
+                <tr><td><strong>OctoBot</strong></td><td>Python</td><td>Multi-strategy</td><td>⭐⭐⭐</td><td>GUI-based, non-coders</td></tr>
+                <tr><td><strong>hftbacktest</strong></td><td>Rust+Py</td><td>HFT backtesting</td><td>⭐⭐⭐⭐</td><td>Serious market making / HFT</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Documented Successes
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <ul>
+            <li><strong>Alpha Arena (Nov 2025):</strong> AI trading bots competed with real money. GPT-5 and Claude Sonnet 4.5 finished profitable. Proved <span class="abbr" data-tooltip="Large Language Model">LLM</span>-powered trading agents can generate real returns.</li>
+            <li><strong>3Commas <span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span> Bot:</strong> 12.8% net profit, 100% deal completion across 36 deals. BTC/USDT pair.</li>
+            <li><strong>Hummingbot User:</strong> One user generated $2B in cumulative volume. Profit from spread capture and exchange rebates.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Famous Bot Failures (Lessons Learned)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <div class="callout danger" style="margin-bottom: 12px;">
+            <strong>FTX Collapse (Nov 2022):</strong> Thousands of bots lost ALL funds on FTX. <strong>Lesson:</strong> NEVER keep all funds on one exchange. Counterparty risk is real.
+          </div>
+          <div class="callout warning" style="margin-bottom: 12px;">
+            <strong>Flash Crash Bots:</strong> Bots amplifying crashes via cascading sell orders. <strong>Lesson:</strong> Circuit breakers and position limits are essential.
+          </div>
+          <div class="callout danger" style="margin-bottom: 12px;">
+            <strong>Luna/UST Crash (May 2022):</strong> <span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span> bots bought Luna from $80 to $0.0001. <strong>Lesson:</strong> <span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span> without stop losses on altcoins is suicidal. Always have a max drawdown cutoff.
+          </div>
+          <div class="callout warning">
+            <strong>Overfit Bot Syndrome:</strong> Most common failure — perfect backtest, loses money live. <strong>Lesson:</strong> Walk-forward analysis, paper trading, gradual scaling.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 10: ROADMAP ===== -->
+  <section class="section" id="s10">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <h2>Step-by-Step Roadmap</h2>
+    </div>
+
+    <div class="collapsible open">
+      <button class="collapsible-toggle">
+        Phase 1: Foundation (Weeks 1–4)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Week 1–2: Education &amp; Setup</h4>
+          <ol>
+            <li>Learn market microstructure: order books, maker/taker, spread, slippage</li>
+            <li>Set up development environment</li>
+            <li>Create exchange accounts + API keys (read-only first!)</li>
+            <li>Fund with small amount ($500–1000)</li>
+          </ol>
+
+          <pre><code><span class="cm"># Create virtual environment</span>
+python -m venv trading_bot
+<span class="kw">source</span> trading_bot/bin/activate
+
+<span class="cm"># Install core libraries</span>
+pip install ccxt pandas numpy vectorbt freqtrade
+pip install python-telegram-bot aiohttp orjson<span class="code-label">Bash</span></code></pre>
+
+          <h4>Week 3–4: Data Collection &amp; First Strategy</h4>
+          <ol>
+            <li>Download historical data (CCXT → SQLite/CSV, 2+ years)</li>
+            <li>Implement SMA Crossover (learning the mechanics)</li>
+            <li>Backtest with VectorBT</li>
+          </ol>
+
+          <pre><code><span class="kw">import</span> vectorbt <span class="kw">as</span> vbt
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cm"># Download data</span>
+data = vbt.YFData.<span class="fn">download</span>(<span class="str">'BTC-USD'</span>, period=<span class="str">'2y'</span>, interval=<span class="str">'1h'</span>)
+price = data.<span class="fn">get</span>(<span class="str">'Close'</span>)
+
+<span class="cm"># Define entries/exits</span>
+fast_ma = vbt.MA.<span class="fn">run</span>(price, <span class="num">20</span>)
+slow_ma = vbt.MA.<span class="fn">run</span>(price, <span class="num">50</span>)
+entries = fast_ma.ma_crossed_above(slow_ma)
+exits = fast_ma.ma_crossed_below(slow_ma)
+
+<span class="cm"># Backtest</span>
+pf = vbt.Portfolio.<span class="fn">from_signals</span>(price, entries, exits, fees=<span class="num">0.001</span>)
+<span class="fn">print</span>(pf.<span class="fn">stats</span>())<span class="code-label">Python</span></code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Phase 2: Strategy Development (Weeks 5–12)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Week 5–6: Pick Your Strategy</h4>
+          <ul>
+            <li><strong>$1K–3K:</strong> Start with <span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span> bot on Freqtrade</li>
+            <li><strong>$5K–10K:</strong> Funding rate arb OR grid trading</li>
+            <li><strong>$10K+:</strong> Multi-strategy (funding arb + grid + momentum)</li>
+          </ul>
+
+          <h4>Week 7–8: Build &amp; Backtest</h4>
+          <ol>
+            <li>Code strategy logic with proper risk management</li>
+            <li>Add logging and Telegram alerts</li>
+            <li>Test across 2020–2025, include fees/slippage</li>
+            <li>Calculate: Sharpe ratio, max drawdown, win rate, profit factor</li>
+          </ol>
+
+          <h4>Week 9–10: Walk-Forward Validation</h4>
+          <p>Split 70/30. Optimize on in-sample, test out-of-sample. Repeat with rolling windows. <strong>Proceed only if out-of-sample is within 50% of in-sample.</strong></p>
+
+          <h4>Week 11–12: Paper Trading</h4>
+          <p>Minimum 2–4 weeks. Verify orders execute, risk management works, bot handles errors (network drops, API errors).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Phase 3: Live Trading — Small (Months 3–6)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Month 3: Go Live</h4>
+          <ol>
+            <li>Deploy to VPS (AWS/DigitalOcean)</li>
+            <li><strong>Start with 10% of intended capital</strong></li>
+            <li>Monitor obsessively for first week</li>
+            <li>Set up: Telegram alerts, daily P&L, error alerting, auto-shutdown on drawdown</li>
+          </ol>
+
+          <h4>Month 4–5: Evaluate &amp; Iterate</h4>
+          <p>Compare live vs backtest. Identify discrepancies. Adjust parameters. Do NOT increase position sizes yet.</p>
+
+          <h4>Month 6: Decision Point</h4>
+          <div class="callout info">
+            💡 <strong>Profitable?</strong> → Phase 4. <strong>Not profitable?</strong> → Back to Phase 2. <strong>Average:</strong> 40–60% of strategies that pass backtesting fail live. This is normal.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Phase 4: Scaling (Months 6–12)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Capital Allocation</h4>
+          <ul>
+            <li>30–40% stablecoins (dry powder + safety)</li>
+            <li>20–30% primary strategy</li>
+            <li>10–20% secondary strategy</li>
+            <li>10–20% manual/discretionary</li>
+          </ul>
+
+          <h4>Scaling Rules</h4>
+          <ul>
+            <li>Increase position size by 25% every 4 profitable weeks</li>
+            <li>Decrease by 50% after 2 consecutive losing weeks</li>
+            <li>Never &gt;30% of total capital in one strategy</li>
+          </ul>
+
+          <h4>Multi-Strategy Mix</h4>
+          <ul>
+            <li><strong>Bull market:</strong> More momentum, reduce grid</li>
+            <li><strong>Sideways:</strong> More grid, more mean reversion</li>
+            <li><strong>Bear market:</strong> More funding arb, reduce <span class="abbr" data-tooltip="Dollar Cost Averaging">DCA</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Phase 5: Long-term (Year 2+)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Continuous Improvement</h4>
+          <ul>
+            <li>Strategies have 18–24 month lifespan — ALWAYS research new ones</li>
+            <li>Re-optimize quarterly (walk-forward)</li>
+            <li>Monitor for edge decay (declining Sharpe, increasing drawdowns)</li>
+          </ul>
+
+          <h4>Revenue Targets (Realistic)</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Year</th><th>Target</th></tr></thead>
+              <tbody>
+                <tr><td>Year 1</td><td>Don't lose money. Break-even is success.</td></tr>
+                <tr><td>Year 2</td><td>15–30% annual returns on active capital</td></tr>
+                <tr><td>Year 3+</td><td>20–50% with compounding + multiple strategies</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Capital target:</strong> Get to $20K–50K deployed capital for meaningful income.</p>
+
+          <div class="callout info">
+            💡 <strong>The Meta-Strategy:</strong> The real edge isn't any single strategy. It's the PROCESS: Generate ideas → Backtest (VectorBT) → Validate (walk-forward) → Paper trade (2–4 weeks) → Live small (1–3 months) → Scale what works, kill what doesn't → <strong>Repeat forever.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== APPENDICES ===== -->
+  <section class="section" id="appendix">
+    <div class="section-header">
+      <span class="section-num">A–C</span>
+      <h2>Appendices</h2>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Appendix A: Essential Resources
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>📚 Books</h4>
+          <ul>
+            <li>"Advances in Financial Machine Learning" — Marcos Lopez de Prado</li>
+            <li>"Algorithmic Trading" — Ernest Chan</li>
+            <li>"Trading and Exchanges" — Larry Harris</li>
+            <li>"Quantitative Trading" — Ernest Chan</li>
+          </ul>
+
+          <h4>👥 Communities</h4>
+          <ul>
+            <li><strong>r/algotrading</strong> — Best Reddit community for algo trading</li>
+            <li><strong>Hummingbot Discord</strong> — Market making community</li>
+            <li><strong>Freqtrade Discord</strong> — Bot development community</li>
+            <li><strong>QuantConnect Forum</strong> — Algo trading discussions</li>
+          </ul>
+
+          <h4>📊 Data Sources</h4>
+          <ul>
+            <li><strong>CoinGlass</strong> — Funding rates, liquidations, OI</li>
+            <li><strong>Glassnode</strong> — On-chain analytics</li>
+            <li><strong>TradingView</strong> — Charting and alerts</li>
+            <li><strong>Binance Vision</strong> — Free historical data downloads</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Appendix B: Quick Reference — What to Build First
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <h4>Recommended Stack: TypeScript + Python Hybrid</h4>
+          <pre><code><span class="cm">Strategy Research & Backtesting:</span> Python (VectorBT, Freqtrade)
+<span class="cm">Live Bot Core:</span>              TypeScript (you're fast in it)
+<span class="cm">DeFi Integration:</span>           TypeScript (ethers.js)
+<span class="cm">ML Signals:</span>                 Python (scikit-learn, LightGBM)
+<span class="cm">Infrastructure:</span>             AWS Tokyo VPS, Docker
+<span class="cm">Monitoring:</span>                 Telegram bot, custom dashboard<span class="code-label">Stack</span></code></pre>
+
+          <h4>First Bot: Funding Rate Arbitrage</h4>
+          <ol>
+            <li>Monitor funding rates across exchanges (CoinGlass API)</li>
+            <li>When rate is abnormally high (&gt;0.05%): Buy spot + Short perp</li>
+            <li>Collect funding every 8 hours</li>
+            <li>Close when rates normalize</li>
+            <li>Expected: 15–25% APY with minimal directional risk</li>
+          </ol>
+
+          <h4>Second Bot: Grid Trading</h4>
+          <ol>
+            <li>Define price range (e.g., BTC $80K–$100K)</li>
+            <li>Place buy orders at every $500 below current price</li>
+            <li>Place sell orders at every $500 above</li>
+            <li>Profit from oscillation</li>
+          </ol>
+
+          <h4>Third Bot (Advanced): <span class="abbr" data-tooltip="Large Language Model">LLM</span>-Powered Sentiment + Momentum</h4>
+          <ol>
+            <li>Scrape Twitter/X using <span class="abbr" data-tooltip="Large Language Model">LLM</span> for sentiment</li>
+            <li>Combine with momentum signals (price, volume)</li>
+            <li>Only trade when sentiment AND momentum align</li>
+            <li>Cutting edge in 2025–2026</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-toggle">
+        Appendix C: The Brutal Truth (Full)
+        <span class="chevron">▼</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-content">
+          <ol>
+            <li><strong>Most trading bots lose money.</strong> 70% of retail traders who lose manually will lose with bots — just faster.</li>
+            <li><strong>The bot doesn't create the edge.</strong> It executes YOUR edge. No edge = faster money burning.</li>
+            <li><strong>Fees are the silent killer.</strong> 30 trades/day × 0.1% = 90% monthly in fees.</li>
+            <li><strong>Your competition is serious.</strong> Jump Trading, Wintermute, Citadel — billions on infrastructure.</li>
+            <li><strong>Where you CAN win:</strong> Small markets, novel signals, flexibility, DeFi complexity.</li>
+            <li><strong>The real money in crypto:</strong> Most wealth was created by holding, not trading.</li>
+            <li><strong>Budget for losses.</strong> Plan to lose $1K–2K as tuition.</li>
+            <li><strong>Time investment:</strong> 6–12 months of serious work. Not a weekend project.</li>
+            <li><strong>The process IS the product.</strong> The ability to develop, test, and iterate is what makes you profitable over time.</li>
+            <li><strong>Start small. Stay small until you PROVE profitability.</strong> Then scale gradually.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTNOTE -->
+  <div class="footnote">
+    <p>Research compiled February 2026. Markets change. Strategies decay. Always validate with current data.</p>
+    <p style="margin-top: 6px;">Sources: Brave Search, CoinGlass, Hummingbot, 3Commas, CCXT, Databento, Freqtrade, academic papers (ScienceDirect), community data (Reddit r/algotrading), exchange documentation, Flashbots, CoinTelegraph, EigenPhi, ArbitrageScanner.</p>
+  </div>
+
+</div><!-- end full research tab -->
+</main>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ===== TAB SWITCHING =====
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+// ===== COLLAPSIBLE SECTIONS =====
+document.querySelectorAll('.collapsible-toggle').forEach(toggle => {
+  toggle.addEventListener('click', () => {
+    const parent = toggle.parentElement;
+    parent.classList.toggle('open');
+  });
+});
+
+// ===== SCROLL PROGRESS =====
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  document.getElementById('scrollProgress').style.width = progress + '%';
+
+  // Back to top button
+  const btn = document.getElementById('backToTop');
+  if (scrollTop > 400) {
+    btn.classList.add('visible');
+  } else {
+    btn.classList.remove('visible');
+  }
+});
+
+// ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      const headerHeight = document.querySelector('.header').offsetHeight;
+      const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerHeight - 20;
+      window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+</body>
+</html>
